@@ -93,6 +93,25 @@
     .btn-outline:hover { background: #f1f3f5; }
 
     /* KPI Summary Cards */
+    .pr-wrap { display: grid; grid-template-columns: 1.25fr 1fr 1.1fr; gap: 12px; margin-top: 14px; }
+    @media (max-width: 900px) { .pr-wrap { grid-template-columns: 1fr; } }
+    .pr-bloco { border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; background: #fff; }
+    .pr-tit { font-size: 11.5px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .pr-grande { font-size: 26px; font-weight: 800; line-height: 1.1; }
+    .pr-sub { font-size: 12px; color: #64748b; margin-top: 2px; }
+    .pr-linhas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+    .pr-linhas div { background: #f8fafc; border-radius: 6px; padding: 6px 8px; font-size: 11px; color: #64748b; }
+    .pr-linhas b { display: block; font-size: 15px; color: #0f172a; }
+    .pr-barra { height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; display: flex; margin-top: 10px; }
+    .pr-barra span { height: 100%; }
+    .pr-legenda { display: flex; gap: 10px; flex-wrap: wrap; font-size: 11px; color: #64748b; margin-top: 5px; }
+    .pr-legenda i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; }
+    .pr-pessoa { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; cursor: pointer; }
+    .pr-pessoa:last-child { border-bottom: none; }
+    .pr-pessoa .bola { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+    .pr-pessoa .n { flex: 1; font-weight: 600; }
+    .pr-pessoa .v { font-weight: 800; }
+    .pr-pessoa .q { font-size: 11px; color: #64748b; width: 62px; text-align: right; }
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -853,33 +872,7 @@
     </div>
 
     <!-- KPI Grid -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-title">Total de Itens</div>
-        <div class="kpi-val" id="kpi-total">0</div>
-        <div class="kpi-sub">produtos catalogados</div>
-      </div>
-      <div class="kpi-card" style="background:#ebfbee; border-color:#b2f2bb;">
-        <div class="kpi-title" style="color:#2b8a3e;">Itens com Opção</div>
-        <div class="kpi-val" id="kpi-com-link" style="color:#2b8a3e;">0</div>
-        <div class="kpi-sub">com link cadastrado</div>
-      </div>
-      <div class="kpi-card" style="background:#fff4e6; border-color:#ffd8a8;">
-        <div class="kpi-title" style="color:#d9480f;">Falta Inserir Link</div>
-        <div class="kpi-val" id="kpi-pendentes" style="color:#d9480f;">0</div>
-        <div class="kpi-sub">sem opção cadastrada</div>
-      </div>
-      <div class="kpi-card" style="background:#f3f0ff; border-color:#d0bfff;">
-        <div class="kpi-title" style="color:#7048e8;">Subtotal Produtos</div>
-        <div class="kpi-val" id="kpi-prod-preco" style="color:#7048e8;">R$ 0,00</div>
-        <div class="kpi-sub">opções escolhidas</div>
-      </div>
-      <div class="kpi-card" style="background:#eef2ff; border-color:#bac8ff;">
-        <div class="kpi-title" style="color:#364fc7;">Total c/ Frete</div>
-        <div class="kpi-val" id="kpi-total-geral" style="color:#364fc7;">R$ 0,00</div>
-        <div class="kpi-sub">produtos + fretes</div>
-      </div>
-    </div>
+    <div id="painel-resumo"></div>
   </header>
 
   <!-- Barra de sincronização do grupo -->
@@ -3639,7 +3632,9 @@ function preencherEuSou() {
 function definirEuSou(nome) {
   euSou = nome;
   localStorage.setItem(EU_KEY, nome);
+  preencherEuSou();
   renderItens();
+  atualizarKPIs();
 }
 
 function salvarStore() {
@@ -3683,11 +3678,7 @@ function atualizarKPIs() {
     badgeGrupo.textContent = `${ITENS.filter(it => !isItemSenai(it) && store[it.id]?.responsavel).length} separados`;
   }
 
-  document.getElementById('kpi-total').textContent = totalCompras;
-  document.getElementById('kpi-com-link').textContent = itensComOpcao;
-  document.getElementById('kpi-pendentes').textContent = totalCompras - itensComOpcao;
-  document.getElementById('kpi-prod-preco').textContent = formatMoeda(somaProd);
-  document.getElementById('kpi-total-geral').textContent = formatMoeda(somaProd + somaFrete);
+  renderPainelResumo();
 }
 
 function setFiltro(tipo, btn) {
@@ -3719,6 +3710,95 @@ function fecharModalFoto(e) {
     const modal = document.getElementById('photo-modal');
     if (modal) modal.style.display = 'none';
   }
+}
+
+// ===== Painel de resumo (topo) =====
+// Projeto = todos os itens a comprar (fora o SENAI). Você = itens separados para quem está em "Eu sou".
+function renderPainelResumo() {
+  const el = document.getElementById('painel-resumo');
+  if (!el) return;
+  const itens = ITENS.filter(it => !isItemSenai(it));
+  const comPreco = itens.filter(it => custoItem(it) > 0);
+  const separados = itens.filter(it => store[it.id]?.responsavel);
+  const comprados = separados.filter(it => store[it.id]?.comprado);
+  const semDono = itens.filter(it => !store[it.id]?.responsavel);
+  const soma = (lst) => lst.reduce((a, it) => a + custoItem(it), 0);
+  const somaFrete = (lst) => lst.reduce((a, it) => { const { escolhida } = opcaoDoItem(it.id); return a + (escolhida ? custoOpcao(escolhida).f : 0); }, 0);
+  const total = soma(itens);
+  const pct = (v) => total ? (v / total * 100) : 0;
+
+  // Projeto
+  const vComprado = soma(comprados), vSeparado = soma(separados) - vComprado, vLivre = soma(semDono);
+  const projeto = `<div class="pr-bloco" style="border-top:4px solid #0c2d48">
+    <div class="pr-tit" style="color:#0c2d48">📦 Projeto (até agora)</div>
+    <div class="pr-grande" style="color:#0c2d48">${formatMoeda(total)}</div>
+    <div class="pr-sub">${itens.length} itens a comprar · ${comPreco.length} com preço · fretes ${formatMoeda(somaFrete(itens))}</div>
+    <div class="pr-barra">
+      <span style="width:${pct(vComprado)}%;background:#16a34a"></span>
+      <span style="width:${pct(vSeparado)}%;background:#7c3aed"></span>
+      <span style="width:${pct(vLivre)}%;background:#f59e0b"></span>
+    </div>
+    <div class="pr-legenda">
+      <span><i style="background:#16a34a"></i>comprado ${formatMoeda(vComprado)}</span>
+      <span><i style="background:#7c3aed"></i>separado ${formatMoeda(vSeparado)}</span>
+      <span><i style="background:#f59e0b"></i>sem dono ${formatMoeda(vLivre)}</span>
+    </div>
+    <div class="pr-linhas">
+      <div>Separados<b>${separados.length}/${itens.length}</b></div>
+      <div>Comprados<b>${comprados.length}</b></div>
+      <div style="${semDono.length ? 'background:#fff7ed' : ''}">Falta separar<b style="${semDono.length ? 'color:#d9480f' : ''}">${semDono.length}</b></div>
+    </div>
+  </div>`;
+
+  // Você
+  let voce;
+  if (!euSou) {
+    voce = `<div class="pr-bloco" style="border-top:4px solid #94a3b8">
+      <div class="pr-tit" style="color:#475569">👤 Você</div>
+      <div class="pr-sub" style="font-size:13px; margin:6px 0 10px">Escolha seu nome para ver o seu total.</div>
+      <select class="input-box" style="width:100%; padding:6px 8px" onchange="if(this.value==='__novo__'){const n=(prompt('Seu nome:')||'').trim(); if(n){ if(!membrosGrupo.includes(n)){membrosGrupo.push(n); salvarGrupo();} definirEuSou(n);} else this.value='';} else definirEuSou(this.value)">
+        <option value="">— quem é você? —</option>
+        ${membrosGrupo.map(m => `<option>${escHTML(m)}</option>`).join('')}
+        <option value="__novo__">➕ Sou novo no grupo</option>
+      </select>
+    </div>`;
+  } else {
+    const meus = separados.filter(it => store[it.id].responsavel === euSou);
+    const meusOk = meus.filter(it => store[it.id].comprado);
+    const vMeu = soma(meus), vMeuOk = soma(meusOk);
+    const cor = corMembro(euSou);
+    voce = `<div class="pr-bloco" style="border-top:4px solid ${cor}">
+      <div class="pr-tit" style="color:${cor}">👤 ${escHTML(euSou)} <a href="#" style="font-size:11px;font-weight:400;text-transform:none;letter-spacing:0" onclick="event.preventDefault(); definirEuSou('')">trocar</a></div>
+      <div class="pr-grande" style="color:${cor}">${formatMoeda(vMeu)}</div>
+      <div class="pr-sub">${meus.length} itens no seu nome · ${Math.round(pct(vMeu))}% do projeto</div>
+      <div class="pr-barra"><span style="width:${vMeu ? vMeuOk / vMeu * 100 : 0}%;background:#16a34a"></span></div>
+      <div class="pr-linhas">
+        <div>Já comprei<b>${formatMoeda(vMeuOk)}</b></div>
+        <div>Falta pagar<b style="color:${vMeu - vMeuOk ? '#d9480f' : '#16a34a'}">${formatMoeda(vMeu - vMeuOk)}</b></div>
+        <div style="cursor:pointer" onclick="filtroPessoa='${escHTML(euSou).replace(/'/g, "\\'")}'; alternarListaPrincipal('grupo')">Ver meus itens<b>🧾 →</b></div>
+      </div>
+    </div>`;
+  }
+
+  // Por pessoa
+  const nomes = [...new Set(separados.map(it => store[it.id].responsavel))];
+  const pessoas = nomes.map(n => {
+    const its = separados.filter(it => store[it.id].responsavel === n);
+    return { n, v: soma(its), q: its.length, ok: its.filter(it => store[it.id].comprado).length };
+  }).sort((a, b) => b.v - a.v);
+  const porPessoa = `<div class="pr-bloco" style="border-top:4px solid #7c3aed">
+    <div class="pr-tit" style="color:#5b21b6">👥 Por pessoa <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#64748b">${pessoas.length} participando</span></div>
+    ${pessoas.length ? pessoas.map(x => `<div class="pr-pessoa" onclick="filtroPessoa='${escHTML(x.n).replace(/'/g, "\\'")}'; alternarListaPrincipal('grupo')" title="Ver itens de ${escHTML(x.n)}">
+        <span class="bola" style="background:${corMembro(x.n)}"></span>
+        <span class="n">${escHTML(x.n)}${x.n === euSou ? ' <span style="font-size:11px;color:#64748b;font-weight:400">(você)</span>' : ''}</span>
+        <span class="q">${x.ok}/${x.q} ✅</span>
+        <span class="v">${formatMoeda(x.v)}</span>
+      </div>`).join('')
+      + (semDono.length ? `<div class="pr-pessoa" onclick="alternarListaPrincipal('compras')"><span class="bola" style="background:#f59e0b"></span><span class="n" style="color:#d9480f">Sem dono (Lista 1)</span><span class="q">${semDono.length} itens</span><span class="v" style="color:#d9480f">${formatMoeda(vLivre)}</span></div>` : '')
+      : '<div class="pr-sub">Ninguém separou itens ainda.</div>'}
+  </div>`;
+
+  el.innerHTML = `<div class="pr-wrap">${projeto}${voce}${porPessoa}</div>`;
 }
 
 // ===== LISTA 3: Divisão do grupo =====
