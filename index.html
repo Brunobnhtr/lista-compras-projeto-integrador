@@ -914,7 +914,7 @@
     <button type="button" class="tab-lista-btn active" id="tab-btn-compras" onclick="alternarListaPrincipal('compras')">
       <div style="text-align:left;">
         <div style="font-size:16px;">🛒 <b>LISTA 1: Compras a Fazer</b></div>
-        <div style="font-size:12.5px; opacity:0.85; font-weight:normal; margin-top:2px;">Componentes a comprar na Internet / Lojas</div>
+        <div style="font-size:12.5px; opacity:0.85; font-weight:normal; margin-top:2px;">Falta separar · pesquisar link e preço</div>
       </div>
       <span class="tab-count-badge" id="badge-count-compras">0 itens</span>
     </button>
@@ -927,10 +927,10 @@
     </button>
     <button type="button" class="tab-lista-btn tab-grupo" id="tab-btn-grupo" onclick="alternarListaPrincipal('grupo')">
       <div style="text-align:left;">
-        <div style="font-size:16px;">👥 <b>LISTA 3: Divisão do Grupo</b></div>
-        <div style="font-size:12.5px; opacity:0.85; font-weight:normal; margin-top:2px;">Quem compra o quê · o que ainda falta</div>
+        <div style="font-size:16px;">👥 <b>LISTA 3: Quem compra o quê</b></div>
+        <div style="font-size:12.5px; opacity:0.85; font-weight:normal; margin-top:2px;">Itens já separados, por pessoa</div>
       </div>
-      <span class="tab-count-badge" id="badge-count-grupo">0 faltam</span>
+      <span class="tab-count-badge" id="badge-count-grupo">0 separados</span>
     </button>
   </div>
 
@@ -2758,17 +2758,17 @@ function alternarListaPrincipal(tipo) {
   if (banner) {
     if (tipo === 'grupo') {
       banner.innerHTML = `
-        <b>👥 LISTA 3: DIVISÃO DAS COMPRAS ENTRE OS PARTICIPANTES</b><br>
-        • Mostra só o que <b>não é do SENAI</b>. Cadastre os nomes, use <b>⚖️ Dividir automaticamente</b> (equilibra os valores) ou escolha quem compra cada item.<br>
-        • Marque <b>✅ Comprado</b> quando chegar. Cada pessoa pode receber a sua lista pelo WhatsApp.
+        <b>👥 LISTA 3: QUEM COMPRA O QUÊ</b><br>
+        • Itens já separados, por pessoa. <b>Clique num nome</b> para ver só os itens dele.<br>
+        • Marque <b>✅ Comprado</b> quando chegar. Errou? <b>↩ Devolver</b> manda o item de volta para a Lista 1.
       `;
       banner.style.background = '#f5f3ff';
       banner.style.borderColor = '#7c3aed';
       banner.style.color = '#4c1d95';
     } else if (tipo === 'compras') {
       banner.innerHTML = `
-        <b>🛒 LISTA 1: COMPRAS A FAZER NA INTERNET / LOJAS</b><br>
-        • Esta lista contém <b>apenas os componentes que você realmente precisa comprar</b>.<br>
+        <b>🛒 LISTA 1: ITENS QUE AINDA FALTA ALGUÉM SEPARAR</b><br>
+        • Pesquise o link e o preço, escolha a opção e clique em <b>🙋 Eu vou comprar</b> — o item sai daqui e vai para a <b>sua lista</b> na Lista 3.<br>
         • 💡 <b>Achou algum componente no laboratório do SENAI?</b> Basta clicar no botão verde <b>"🎓 O SENAI tem este item"</b> no card para transferi-lo para a Lista 2 e não gastar dinheiro!
       `;
       banner.style.background = '#e7f5ff';
@@ -3054,7 +3054,7 @@ function renderItens() {
     lista = [...itensProjetoSenai, ...itensInfra];
   } else {
     // Lista 1: Compras a fazer (somente itens que NÃO são do SENAI)
-    lista = ITENS.filter(it => !isItemSenai(it)).map(it => ({ ...it }));
+    lista = ITENS.filter(it => !isItemSenai(it) && !store[it.id]?.responsavel).map(it => ({ ...it }));
   }
 
   lista = lista.filter(item => {
@@ -3120,6 +3120,9 @@ function renderItens() {
           `;
         } else {
           botaoMover = `
+            <button type="button" class="btn-mover-lista" style="background:#7c3aed;color:#fff;border-color:#7c3aed" onclick="pegarItem('${item.id}')" title="Separa este item no seu nome: ele sai da Lista 1 e vai para a sua lista na Lista 3">
+              🙋 Eu vou comprar
+            </button>
             <button type="button" class="btn-mover-lista btn-mover-senai" onclick="moverParaSenai('${item.id}')" title="O SENAI tem este item no laboratório. Mover para a Lista 2 (não precisa comprar).">
               🎓 O SENAI tem este item
             </button>
@@ -3670,15 +3673,14 @@ function atualizarKPIs() {
   });
 
   const badgeCompras = document.getElementById('badge-count-compras');
-  if (badgeCompras) badgeCompras.textContent = `${totalCompras} itens`;
+  if (badgeCompras) badgeCompras.textContent = `${itensCompras.filter(it => !store[it.id]?.responsavel).length} itens`;
 
   const badgeSenai = document.getElementById('badge-count-senai');
   if (badgeSenai) badgeSenai.textContent = `${itensSenai.length} itens`;
 
   const badgeGrupo = document.getElementById('badge-count-grupo');
   if (badgeGrupo) {
-    const faltam = ITENS.filter(it => !isItemSenai(it) && !store[it.id]?.comprado).length;
-    badgeGrupo.textContent = faltam ? `${faltam} faltam` : 'tudo comprado ✅';
+    badgeGrupo.textContent = `${ITENS.filter(it => !isItemSenai(it) && store[it.id]?.responsavel).length} separados`;
   }
 
   document.getElementById('kpi-total').textContent = totalCompras;
@@ -3761,6 +3763,26 @@ function alternarSenaiGrupo(id) {
   salvarStore(); atualizarKPIs(); renderGrupo();
 }
 
+// Lista 1 -> Lista 3: separa o item no nome de quem está usando o site
+function pegarItem(id) {
+  if (!euSou) {
+    const nome = (prompt('Qual é o seu nome? (vai aparecer na Lista 3)') || '').trim();
+    if (!nome) return;
+    if (!membrosGrupo.includes(nome)) { membrosGrupo.push(nome); salvarGrupo(); }
+    definirEuSou(nome);
+  }
+  dadosItem(id).responsavel = euSou;
+  salvarStore(); atualizarKPIs(); renderItens();
+  mostrarToast(`🙋 ${id} separado para ${euSou} — está na Lista 3.`);
+}
+
+function devolverItem(id) {
+  const d = dadosItem(id);
+  if (!confirm(`Devolver ${id} (de ${d.responsavel}) para a Lista 1?`)) return;
+  delete d.responsavel; d.comprado = false;
+  salvarStore(); atualizarKPIs(); renderItens();
+}
+
 function marcarComprado(id, val) {
   dadosItem(id).comprado = val;
   salvarStore(); atualizarKPIs(); renderGrupo();
@@ -3788,7 +3810,7 @@ function dividirAutomatico(refazerTudo) {
 }
 
 function resumoMembro(nome) {
-  const itens = itensDoGrupo().filter(it => (store[it.id]?.responsavel || '') === nome);
+  const itens = ITENS.filter(it => !isItemSenai(it) && (store[it.id]?.responsavel || '') === nome);
   const faltam = itens.filter(it => !store[it.id]?.comprado && !isItemSenai(it));
   return { itens, faltam, total: itens.reduce((a, it) => a + custoItem(it), 0), falta: faltam.reduce((a, it) => a + custoItem(it), 0) };
 }
@@ -3821,83 +3843,59 @@ function enviarParaMembro(nome) {
   mostrarToast(`💬 Lista de ${nome || 'sem responsável'} copiada e aberta no WhatsApp do PC.`);
 }
 
+let filtroPessoa = '';
+function verPessoa(nome) { filtroPessoa = filtroPessoa === nome ? '' : nome; renderGrupo(); }
+
 function renderGrupo() {
   const box = document.getElementById('grupo-container');
-  const itens = itensDoGrupo();
-  const totalGeral = itens.reduce((a, it) => a + custoItem(it), 0) || 1;
-  const nomes = [...membrosGrupo, ''];
+  const separados = ITENS.filter(it => !isItemSenai(it) && store[it.id]?.responsavel);
+  const pessoas = [...new Set([...membrosGrupo, ...separados.map(it => store[it.id].responsavel)])]
+    .filter(n => separados.some(it => store[it.id].responsavel === n) || n === euSou);
+  if (filtroPessoa && !pessoas.includes(filtroPessoa)) filtroPessoa = '';
+  const totalGeral = separados.reduce((a, it) => a + custoItem(it), 0) || 1;
+  const faltaSeparar = ITENS.filter(it => !isItemSenai(it) && !store[it.id]?.responsavel).length;
 
-  const chips = membrosGrupo.map(m =>
-    `<span class="gp-chip" style="background:${corMembro(m)}">${escHTML(m)}<button title="Remover" onclick="removerMembro('${escHTML(m).replace(/'/g, "\\'")}')">✕</button></span>`).join('');
-
-  const cards = nomes.map(m => {
-    const r = resumoMembro(m);
-    if (!m && !r.itens.length) return '';
-    const pct = Math.round(r.total / totalGeral * 100);
-    const feitos = r.itens.length - r.faltam.length;
-    return `<div class="gp-card" style="border-top-color:${corMembro(m)}">
-      <div class="nome" style="color:${corMembro(m)}">${m ? escHTML(m) : '❓ Sem responsável'}</div>
-      <div class="val">${formatMoeda(r.total)}</div>
-      <div>${r.itens.length} itens · ${pct}% do total</div>
-      <div class="gp-barra"><div style="width:${r.itens.length ? feitos / r.itens.length * 100 : 0}%; background:${corMembro(m)}"></div></div>
-      <div>✅ ${feitos} comprados · ⏳ falta ${formatMoeda(r.falta)}</div>
-      ${r.faltam.length ? `<button class="btn btn-sm btn-outline gp-acoes" style="margin-top:6px; font-size:11.5px; padding:4px 10px;" onclick="enviarParaMembro('${escHTML(m).replace(/'/g, "\\'")}')">💬 Enviar lista no WhatsApp</button>` : ''}
+  const cards = pessoas.map(m => {
+    const its = separados.filter(it => store[it.id].responsavel === m);
+    const tot = its.reduce((a, it) => a + custoItem(it), 0);
+    const feitos = its.filter(it => store[it.id].comprado).length;
+    const nomeJs = escHTML(m).replace(/'/g, "\\'");
+    return `<div class="gp-card" onclick="verPessoa('${nomeJs}')" style="cursor:pointer; border-top-color:${corMembro(m)}; ${filtroPessoa === m ? `outline:3px solid ${corMembro(m)};` : ''}">
+      <div class="nome" style="color:${corMembro(m)}">${escHTML(m)}${m === euSou ? ' <span style="font-size:11px;color:#64748b">(você)</span>' : ''}</div>
+      <div class="val">${formatMoeda(tot)}</div>
+      <div>${its.length} itens · ${Math.round(tot / totalGeral * 100)}% do total</div>
+      <div class="gp-barra"><div style="width:${its.length ? feitos / its.length * 100 : 0}%; background:${corMembro(m)}"></div></div>
+      <div>✅ ${feitos} de ${its.length} comprados</div>
+      ${its.length ? `<button class="btn btn-sm btn-outline gp-acoes" style="margin-top:6px; font-size:11.5px; padding:4px 10px;" onclick="event.stopPropagation(); enviarParaMembro('${nomeJs}')">💬 Lista no WhatsApp</button>` : ''}
     </div>`;
   }).join('');
 
-  const linha = (it) => {
-    const d = store[it.id] || {};
+  const visiveis = filtroPessoa ? separados.filter(it => store[it.id].responsavel === filtroPessoa) : separados;
+  const linhas = visiveis.map(it => {
+    const d = store[it.id];
     const { escolhida } = opcaoDoItem(it.id);
     const c = escolhida ? custoOpcao(escolhida) : null;
-    const opts = ['<option value="">— escolher —</option>'].concat(membrosGrupo.map(m =>
-      `<option value="${escHTML(m)}" ${d.responsavel === m ? 'selected' : ''}>${escHTML(m)}</option>`)).join('');
-    return `<tr class="${d.comprado ? 'comprado' : ''}" ${isItemSenai(it) ? 'style="background:#f0fdf4"' : ''}>
+    return `<tr class="${d.comprado ? 'comprado' : ''}">
       <td><input type="checkbox" ${d.comprado ? 'checked' : ''} onchange="marcarComprado('${it.id}', this.checked)" title="Comprado"></td>
       <td>${escolhida?.foto ? `<img src="${escHTML(escolhida.foto)}" alt="">` : ''}</td>
       <td><div class="gp-nome"><b>${escHTML(it.item)}</b>${it.critico ? ' 🔥' : ''}</div>
           <div style="font-size:11.5px;color:#64748b">${it.id} · Qtd ${escHTML(it.qtd || '1')}${escolhida?.variacao ? ' · 🎯 ' + escHTML(escolhida.variacao) : ''}</div></td>
-      <td style="white-space:nowrap">${isItemSenai(it)
-          ? `<span style="background:#dcfce7;color:#166534;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:10px">🎓 SENAI</span>`
-          : c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}
-          <div><button class="gp-acoes" style="margin-top:3px;font-size:10.5px;padding:1px 6px;border-radius:5px;border:1px solid #cbd5e1;background:#fff;cursor:pointer" onclick="alternarSenaiGrupo('${it.id}')">${isItemSenai(it) ? '🛒 vamos comprar' : '🎓 SENAI tem'}</button></div></td>
-      <td><select onchange="definirResponsavel('${it.id}', this.value)" style="border-left:4px solid ${corMembro(d.responsavel)}">${opts}</select>
-          ${euSou && d.responsavel !== euSou && !d.comprado ? `<button class="gp-acoes" style="margin-left:4px; font-size:11px; padding:3px 7px; border-radius:5px; border:1px solid #7c3aed; background:#f5f3ff; color:#5b21b6; cursor:pointer" onclick="definirResponsavel('${it.id}', euSou)">🙋 Eu compro</button>` : ''}</td>
-      <td>${escolhida ? `<a href="${escHTML(linkLimpo(escolhida.link))}" target="_blank" style="font-size:12px;font-weight:700;color:#2563eb;text-decoration:none">🔗 Abrir</a>` : ''}</td>
+      <td style="white-space:nowrap">${c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}</td>
+      <td><span class="gp-chip" style="background:${corMembro(d.responsavel)}">${escHTML(d.responsavel)}</span></td>
+      <td style="white-space:nowrap">${escolhida ? `<a href="${escHTML(linkLimpo(escolhida.link))}" target="_blank" style="font-size:12px;font-weight:700;color:#2563eb;text-decoration:none">🔗 Abrir</a>` : ''}
+          <button class="gp-acoes" style="margin-left:6px;font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid #cbd5e1;background:#fff;cursor:pointer" onclick="devolverItem('${it.id}')" title="Volta para a Lista 1">↩ Devolver</button></td>
     </tr>`;
-  };
+  }).join('');
 
-  let tabela = '';
-  const visiveis = soMeus && euSou ? itens.filter(it => store[it.id]?.responsavel === euSou) : itens;
-  for (const [bloco, its] of Object.entries(agruparItens(visiveis))) {
-    const ordenados = [...its].sort((a, b) => Boolean(store[a.id]?.comprado) - Boolean(store[b.id]?.comprado));
-    tabela += `<tr class="gp-bloco"><td colspan="6">${escHTML(bloco)}</td></tr>` + ordenados.map(linha).join('');
-  }
-
-  const faltam = itensACobrar().filter(it => !store[it.id]?.comprado);
-  const nSenai = itens.filter(it => isItemSenai(it)).length;
   box.innerHTML = `
     <div class="gp-box">
-      <div style="font-weight:700; margin-bottom:8px;">👥 Participantes</div>
-      <div class="gp-membros">
-        ${chips || '<span style="color:#64748b;font-size:13px">Nenhum participante ainda.</span>'}
-        <input id="gp-novo" class="input-box" style="width:260px; padding:6px 10px;" placeholder="Nome (ou vários: Ana, Bia, Caio)" onkeydown="if(event.key==='Enter')adicionarMembro()">
-        <button class="btn btn-sm" style="background:#7c3aed;color:#fff;border:none;padding:7px 12px;border-radius:6px;font-weight:700" onclick="adicionarMembro()">+ Adicionar</button>
-        <span style="flex:1"></span>
-        <button class="btn btn-sm btn-outline" onclick="dividirAutomatico(false)" title="Distribui só os itens sem responsável">⚖️ Dividir automaticamente</button>
-        <button class="btn btn-sm btn-outline" onclick="dividirAutomatico(true)" title="Redistribui todos os itens não comprados">🔄 Refazer divisão</button>
-      </div>
+      <div style="font-weight:700; margin-bottom:8px;">📊 ${separados.length} itens separados · ${formatMoeda(separados.reduce((a, it) => a + custoItem(it), 0))}
+        ${faltaSeparar ? ` · <a href="#" onclick="event.preventDefault(); alternarListaPrincipal('compras')" style="color:#d9480f">⚠️ ${faltaSeparar} ainda na Lista 1</a>` : ' · ✅ tudo separado'}</div>
+      <div class="gp-cards">${cards || '<span style="color:#64748b;font-size:13px">Ninguém separou itens ainda. Vá na Lista 1 e clique em 🙋 Eu vou comprar.</span>'}</div>
     </div>
     <div class="gp-box">
-      <div style="font-weight:700; margin-bottom:8px;">📊 Resumo — faltam <span style="color:#7c3aed">${faltam.length} de ${itensACobrar().length}</span> itens a comprar · 🎓 ${nSenai} com o SENAI · ${formatMoeda(faltam.reduce((a, it) => a + custoItem(it), 0))}</div>
-      <div class="gp-cards">${cards}</div>
-    </div>
-    <div class="gp-box">
-      ${euSou ? `<label class="gp-acoes" style="font-size:13px; font-weight:600; display:inline-block; margin-bottom:8px"><input type="checkbox" ${soMeus ? 'checked' : ''} onchange="soMeus=this.checked; renderGrupo()"> Mostrar só os itens de <b>${escHTML(euSou)}</b></label>`
-              : '<div style="font-size:12.5px; color:#7c3aed; margin-bottom:8px">👤 Escolha seu nome em <b>"Eu sou"</b> (barra escura no topo) para pegar itens com 🙋 e ver só a sua lista.</div>'}
-      <table class="gp-tabela">
-        <tr><th>✅</th><th></th><th>Item</th><th>Valor</th><th>Quem compra</th><th></th></tr>
-        ${tabela}
-      </table>
+      <div style="font-weight:700; margin-bottom:8px;">${filtroPessoa ? `🧾 Itens de <span style="color:${corMembro(filtroPessoa)}">${escHTML(filtroPessoa)}</span> <a href="#" style="font-size:12px;font-weight:400" onclick="event.preventDefault(); verPessoa('')">(ver todos)</a>` : '🧾 Todos os itens separados'}</div>
+      ${linhas ? `<table class="gp-tabela"><tr><th>✅</th><th></th><th>Item</th><th>Valor</th><th>Quem</th><th></th></tr>${linhas}</table>` : '<span style="color:#64748b;font-size:13px">Nenhum item.</span>'}
     </div>`;
   atualizarKPIs();
 }
