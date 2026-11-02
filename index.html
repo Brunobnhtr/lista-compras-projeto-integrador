@@ -3729,8 +3729,9 @@ function salvarGrupo() { localStorage.setItem(GRUPO_KEY, JSON.stringify(membrosG
 let soMeus = false;
 function corMembro(nome) { const i = membrosGrupo.indexOf(nome); return i < 0 ? '#94a3b8' : CORES_GRUPO[i % CORES_GRUPO.length]; }
 function dadosItem(id) { if (!store[id]) store[id] = { opcoes: [] }; return store[id]; }
-function itensDoGrupo() { return ITENS.filter(it => !isItemSenai(it)); }
-function custoItem(it) { const { escolhida } = opcaoDoItem(it.id); return escolhida ? custoOpcao(escolhida).t : 0; }
+function itensDoGrupo() { return ITENS; }
+function itensACobrar() { return ITENS.filter(it => !isItemSenai(it)); }
+function custoItem(it) { if (isItemSenai(it)) return 0; const { escolhida } = opcaoDoItem(it.id); return escolhida ? custoOpcao(escolhida).t : 0; }
 
 function adicionarMembro() {
   const inp = document.getElementById('gp-novo');
@@ -3754,6 +3755,12 @@ function definirResponsavel(id, nome) {
   salvarStore(); renderGrupo();
 }
 
+function alternarSenaiGrupo(id) {
+  const it = ITENS.find(i => i.id === id);
+  dadosItem(id).senai = !isItemSenai(it);
+  salvarStore(); atualizarKPIs(); renderGrupo();
+}
+
 function marcarComprado(id, val) {
   dadosItem(id).comprado = val;
   salvarStore(); atualizarKPIs(); renderGrupo();
@@ -3765,7 +3772,7 @@ function dividirAutomatico(refazerTudo) {
   if (refazerTudo && !confirm('Refazer a divisão de TODOS os itens ainda não comprados?')) return;
   const soma = Object.fromEntries(membrosGrupo.map(m => [m, 0]));
   const pendentes = [];
-  itensDoGrupo().forEach(it => {
+  itensACobrar().forEach(it => {
     const d = dadosItem(it.id);
     if (d.responsavel && !membrosGrupo.includes(d.responsavel)) delete d.responsavel;
     if (d.comprado || (d.responsavel && !refazerTudo)) { if (d.responsavel) soma[d.responsavel] += custoItem(it); }
@@ -3782,7 +3789,7 @@ function dividirAutomatico(refazerTudo) {
 
 function resumoMembro(nome) {
   const itens = itensDoGrupo().filter(it => (store[it.id]?.responsavel || '') === nome);
-  const faltam = itens.filter(it => !store[it.id]?.comprado);
+  const faltam = itens.filter(it => !store[it.id]?.comprado && !isItemSenai(it));
   return { itens, faltam, total: itens.reduce((a, it) => a + custoItem(it), 0), falta: faltam.reduce((a, it) => a + custoItem(it), 0) };
 }
 
@@ -3844,12 +3851,15 @@ function renderGrupo() {
     const c = escolhida ? custoOpcao(escolhida) : null;
     const opts = ['<option value="">— escolher —</option>'].concat(membrosGrupo.map(m =>
       `<option value="${escHTML(m)}" ${d.responsavel === m ? 'selected' : ''}>${escHTML(m)}</option>`)).join('');
-    return `<tr class="${d.comprado ? 'comprado' : ''}">
+    return `<tr class="${d.comprado ? 'comprado' : ''}" ${isItemSenai(it) ? 'style="background:#f0fdf4"' : ''}>
       <td><input type="checkbox" ${d.comprado ? 'checked' : ''} onchange="marcarComprado('${it.id}', this.checked)" title="Comprado"></td>
       <td>${escolhida?.foto ? `<img src="${escHTML(escolhida.foto)}" alt="">` : ''}</td>
       <td><div class="gp-nome"><b>${escHTML(it.item)}</b>${it.critico ? ' 🔥' : ''}</div>
           <div style="font-size:11.5px;color:#64748b">${it.id} · Qtd ${escHTML(it.qtd || '1')}${escolhida?.variacao ? ' · 🎯 ' + escHTML(escolhida.variacao) : ''}</div></td>
-      <td style="white-space:nowrap">${c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}</td>
+      <td style="white-space:nowrap">${isItemSenai(it)
+          ? `<span style="background:#dcfce7;color:#166534;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:10px">🎓 SENAI</span>`
+          : c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}
+          <div><button class="gp-acoes" style="margin-top:3px;font-size:10.5px;padding:1px 6px;border-radius:5px;border:1px solid #cbd5e1;background:#fff;cursor:pointer" onclick="alternarSenaiGrupo('${it.id}')">${isItemSenai(it) ? '🛒 vamos comprar' : '🎓 SENAI tem'}</button></div></td>
       <td><select onchange="definirResponsavel('${it.id}', this.value)" style="border-left:4px solid ${corMembro(d.responsavel)}">${opts}</select>
           ${euSou && d.responsavel !== euSou && !d.comprado ? `<button class="gp-acoes" style="margin-left:4px; font-size:11px; padding:3px 7px; border-radius:5px; border:1px solid #7c3aed; background:#f5f3ff; color:#5b21b6; cursor:pointer" onclick="definirResponsavel('${it.id}', euSou)">🙋 Eu compro</button>` : ''}</td>
       <td>${escolhida ? `<a href="${escHTML(linkLimpo(escolhida.link))}" target="_blank" style="font-size:12px;font-weight:700;color:#2563eb;text-decoration:none">🔗 Abrir</a>` : ''}</td>
@@ -3863,7 +3873,8 @@ function renderGrupo() {
     tabela += `<tr class="gp-bloco"><td colspan="6">${escHTML(bloco)}</td></tr>` + ordenados.map(linha).join('');
   }
 
-  const faltam = itens.filter(it => !store[it.id]?.comprado);
+  const faltam = itensACobrar().filter(it => !store[it.id]?.comprado);
+  const nSenai = itens.filter(it => isItemSenai(it)).length;
   box.innerHTML = `
     <div class="gp-box">
       <div style="font-weight:700; margin-bottom:8px;">👥 Participantes</div>
@@ -3877,7 +3888,7 @@ function renderGrupo() {
       </div>
     </div>
     <div class="gp-box">
-      <div style="font-weight:700; margin-bottom:8px;">📊 Resumo — faltam <span style="color:#7c3aed">${faltam.length} de ${itens.length}</span> itens · ${formatMoeda(faltam.reduce((a, it) => a + custoItem(it), 0))}</div>
+      <div style="font-weight:700; margin-bottom:8px;">📊 Resumo — faltam <span style="color:#7c3aed">${faltam.length} de ${itensACobrar().length}</span> itens a comprar · 🎓 ${nSenai} com o SENAI · ${formatMoeda(faltam.reduce((a, it) => a + custoItem(it), 0))}</div>
       <div class="gp-cards">${cards}</div>
     </div>
     <div class="gp-box">
