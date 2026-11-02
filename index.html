@@ -1049,13 +1049,13 @@ const ITENS = [
   {
     "id": "CAM-02",
     "bloco": "1 · Núcleo térmico da câmara",
-    "critico": true,
-    "item": "Ventoinha 12 V com 3 fios (tacômetro) para o dissipador do lado quente — substitui as do kit CAM-01",
-    "qtd": "Igual ao kit (normalmente 2)",
-    "espec": "Ventoinha com fio amarelo de RPM (tacômetro) para o firmware detectar ventoinha parada — sem ela o lado quente superaquece e a Peltier queima.",
-    "conferir": "Medir a ventoinha que vem no kit (90, 92 ou 80 mm e espessura) e a furação antes de comprar. Tem que ser 3 fios (vermelho, preto, amarelo) e 12 V.",
-    "busca_ml": "ventoinha 12v 3 fios 92mm rpm",
-    "busca_ali": "12V 3 pin fan tachometer 90mm 92mm ball bearing",
+    "critico": false,
+    "item": "Dissipador do lado quente (DISPENSADO — Já incluso no Kit CAM-01)",
+    "qtd": "1",
+    "espec": "Dispensado: o dissipador grande do lado quente e as ventoinhas já vêm integrados no conjunto do kit Peltier duplo (CAM-01).",
+    "conferir": "NÃO COMPRAR separadamente se o kit CAM-01 já trouxer o radiador com ventoinhas.",
+    "busca_ml": "dissipador alumínio 40x40 peltier grande aletado",
+    "busca_ali": "aluminum heatsink 40x40 high performance peltier",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1071,7 +1071,7 @@ const ITENS = [
       }
     ],
     "escolha": 0,
-    "senai": false
+    "senai": true
   },
   {
     "id": "CAM-03",
@@ -1102,11 +1102,12 @@ const ITENS = [
   },
   {
     "id": "CAM-04",
+    "mult": 2,
     "bloco": "1 · Núcleo térmico da câmara",
     "item": "Ventoinha axial quadrada 40×40×10 mm 12 V (boca dos dutos VD1/VD2)",
     "qtd": "2",
-    "espec": "Ventoinha axial convencional de 40×40×10 mm, 12 Vcc (fluxo axial reto, não é turbina/blower caracol), para encaixe plano na boca dos dois dutos.",
-    "conferir": "Modelo AXIAL quadrado 40 mm (com 4 furos de fixação nos cantos), não comprar caracol/blower. ⚠️ Escolher a variação de 3 FIOS (3PIN, com RPM) — a de 2 fios não informa a rotação.",
+    "espec": "Ventoinha axial convencional de 40×40×10 mm, 12 Vcc (2 fios, sem tacômetro, alimentação direta +12V e GND), para encaixe plano na boca dos dois dutos.",
+    "conferir": "Modelo AXIAL quadrado 40 mm 12V com 2 fios (conector 2 pinos, 4 furos de fixação nos cantos). Não precisa de 3º fio (tacômetro).",
     "busca_ml": "cooler 40mm 12v 40x40",
     "busca_ali": "4010 12V DC axial cooling fan 40x40x10mm 2pin",
     "opcoes": [
@@ -1118,7 +1119,7 @@ const ITENS = [
         "freteGratis": true,
         "freteValor": "0.00",
         "escolhida": true,
-        "variacao": "12V Hydraulic 2PIN",
+        "variacao": "12V Hydraulic 2PIN (2 fios)",
         "obs": "Dc 5v 12v 24v ventilador turbo impressora 3d ventilador 4010 ventilador de refrigerao exausto ventiladores ",
         "foto": "https://ae-pic-a1.aliexpress-media.com/kf/S50ef599c146547d081e093a939ca7c58d.jpg"
       }
@@ -1349,12 +1350,12 @@ const ITENS = [
   {
     "id": "VED-08",
     "bloco": "2 · Vedação e montagem da câmara",
-    "item": "Calha coletora de condensado sob o Peltier (parede traseira) com saída de dreno",
+    "item": "Bandeja de alumínio removível (condensado)",
     "qtd": "1",
-    "espec": "Substitui a bandeja de alumínio. Fica logo abaixo do dissipador frio, inclinada para a saída; a saída atravessa a parede traseira com espigão de 8 mm.",
-    "conferir": "Pode ser feita em acrílico no corte a laser (SENAI) ou chapa inox dobrada. Confirmar inclinação mínima de 2–3° até a saída.",
-    "busca_ml": "calha coletora condensado pequena",
-    "busca_ali": "stainless drip tray small",
+    "espec": "Bandeja retirada pela porta. Sem dreno fixo — decisão da V9.",
+    "conferir": "Dimensionar pelo piso útil real: 200 × 100 mm.",
+    "busca_ml": "bandeja alumínio pequena",
+    "busca_ali": "small aluminum tray container",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1371,17 +1372,17 @@ const ITENS = [
     ],
     "escolha": 0,
     "critico": false,
-    "senai": false
+    "senai": true
   },
   {
     "id": "VED-09",
     "bloco": "2 · Vedação e montagem da câmara",
-    "item": "Mangueira de silicone Ø interno 8 mm (dreno + respiro no mesmo tubo)",
-    "qtd": "1 m",
-    "espec": "Ø 8 mm para a água escorrer sem formar 'tampão' — com 4 mm a tensão superficial trava a água e bloqueia o respiro.",
-    "conferir": "Silicone atóxico, Ø interno 8 mm, parede 1,5–2 mm.",
-    "busca_ml": "mangueira silicone 8mm",
-    "busca_ali": "silicone tube 8mm inner diameter food grade",
+    "item": "Tubo de silicone Ø 4 mm (respiro)",
+    "qtd": "0,5 m",
+    "espec": "Respiro da câmara pelo furo de 6 mm da parede traseira.",
+    "conferir": "Silicone, não PVC: precisa manter flexibilidade no frio.",
+    "busca_ml": "tubo silicone 4mm",
+    "busca_ali": "food grade silicone tube 4mm",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1398,35 +1399,7 @@ const ITENS = [
     ],
     "escolha": 0,
     "critico": false,
-    "senai": false
-  },
-  {
-    "id": "VED-14",
-    "bloco": "2 · Vedação e montagem da câmara",
-    "critico": false,
-    "item": "Recipiente fechado 1–2 L para o condensado (pote com tampa rosqueável)",
-    "qtd": "1",
-    "espec": "Recebe a água do dreno. A tampa tem 2 furos: entrada do dreno (acima do nível da água) e um respiro pequeno com sílica gel.",
-    "conferir": "Tampa com vedação. O tubo do dreno NÃO pode ficar mergulhado na água, senão deixa de funcionar como respiro.",
-    "busca_ml": "pote hermético 2 litros tampa rosca",
-    "busca_ali": "plastic jar screw lid 2L airtight",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "VED-15",
-    "bloco": "2 · Vedação e montagem da câmara",
-    "critico": false,
-    "item": "Conector passa-parede com espigão 8 mm (saída do dreno na parede traseira)",
-    "qtd": "2 (câmara + tampa do pote)",
-    "espec": "Conector com porca e anel de vedação para atravessar o acrílico e a tampa do recipiente.",
-    "conferir": "Espigão para mangueira de 8 mm; rosca e porca compatíveis com a espessura do acrílico.",
-    "busca_ml": "conector passa parede espigão 8mm",
-    "busca_ali": "bulkhead hose barb 8mm nut",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
+    "senai": true
   },
   {
     "id": "VED-10",
@@ -1699,26 +1672,12 @@ const ITENS = [
     "senai": false
   },
   {
-    "id": "ELE-10",
-    "bloco": "3 · Cargas de ensaio (LED 12 V)",
-    "critico": false,
-    "item": "Espaçador M3 de nylon 10 mm macho-fêmea (placas sobre o berço de alumínio)",
-    "qtd": "8 + 4 reserva",
-    "espec": "Mantém a solda das placas ilhadas a 10 mm do berço de alumínio — sem ele a solda encosta no metal e dá curto.",
-    "conferir": "Nylon (isolante), M3, 10 mm. Usar também arruela de nylon embaixo do parafuso.",
-    "busca_ml": "espaçador nylon m3 10mm",
-    "busca_ali": "M3 nylon standoff 10mm male female kit",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
     "id": "CTR-01",
     "bloco": "4 · Controle e interface",
     "critico": true,
     "item": "Arduino Mega 2560 R3",
     "qtd": "1",
-    "espec": "Controlador principal. Um só — a lista antiga somava reserva sem necessidade.",
+    "espec": "Controlador principal. Modelo selecionado com WiFi integrado (Mega 2560 + ESP8266 integrado), servindo como upgrade para expansões futuras.",
     "conferir": "Conferir se é R3 com chip ATmega2560 e cabo USB incluso.",
     "busca_ml": "arduino mega 2560 r3 original",
     "busca_ali": "Mega 2560 R3 ATmega2560 CH340 board",
@@ -1732,7 +1691,7 @@ const ITENS = [
         "freteValor": 31.15,
         "escolhida": true,
         "variacao": "2560 Wifi-cable",
-        "obs": "Placa Arduino Mega 2560 R3 CH340 (selecionar opo CH340/Placa, no a caixa de acrlico)",
+        "obs": "Placa Arduino Mega 2560 R3 com WiFi ESP8266 integrado + cabo USB (adquirido com WiFi para upgrade)",
         "foto": "https://ae-pic-a1.aliexpress-media.com/kf/S78b0009216a7414a8ddb6b0fc3e924cdg.jpg"
       }
     ],
@@ -2014,9 +1973,9 @@ const ITENS = [
     "bloco": "5 · Sensores e potência",
     "critico": true,
     "item": "DS18B20 à prova d'água + adaptador com pull-up 4,7 kΩ",
-    "qtd": "2 (câmara + dissipador quente)",
+    "qtd": "1 kit",
     "espec": "Uma sonda no dissipador quente, com adaptador AD-1 já com o pull-up.",
-    "conferir": "Comprar o kit (sonda + adaptador). Não somar outra sonda solta. ⚠️ O projeto usa 2 sensores (interno e no dissipador) — o kit escolhido tem 1.",
+    "conferir": "O SENAI já possui a sonda externa de temperatura DS18B20; a compra deste kit do AliExpress garante a base/placa adaptadora com bornes e resistor pull-up de 4,7 kΩ integrado.",
     "busca_ml": "ds18b20 à prova d'água com adaptador",
     "busca_ali": "DS18B20 waterproof temperature probe with adapter",
     "opcoes": [
@@ -2029,7 +1988,7 @@ const ITENS = [
         "freteValor": "0.00",
         "escolhida": true,
         "variacao": "1M Cable Adapter",
-        "obs": "Kit de mdulo sensor de temperatura ds18b20,  prova d'gua, 100cm, cabo de sensor digital, adaptador de termi",
+        "obs": "Kit com sonda DS18B20 + adaptador terminal com pull-up (o SENAI tem a sonda, kit garante o adaptador)",
         "foto": "https://ae-pic-a1.aliexpress-media.com/kf/Se08cfd5b3fb441689278cc199c0372022.jpg"
       }
     ],
@@ -2038,6 +1997,7 @@ const ITENS = [
   },
   {
     "id": "POT-04",
+    "mult": 2,
     "bloco": "5 · Sensores e potência",
     "critico": true,
     "item": "Driver ponte-H BTS7960 (IBT-2)",
@@ -2050,14 +2010,14 @@ const ITENS = [
       {
         "id": "opt_seed_POT-04_0",
         "loja": "ALI",
-        "link": "https://pt.aliexpress.com/item/1005001552617411.html",
+        "link": "https://pt.aliexpress.com/item/1005012785871167.html",
         "preco": 22.52,
         "freteGratis": false,
         "freteValor": 30.92,
         "escolhida": true,
         "variacao": "BTS7960 Module",
-        "obs": "Mdulo Driver de Motor de Alta Potncia H-bridge Duplo BTS7960/BTN7960 43A / Placa Controladora de Diagnstico",
-        "foto": "https://ae-pic-a1.aliexpress-media.com/kf/Sa56dc8b50d0b4f04b02aa5255fa01cfdg.jpg"
+        "obs": "Módulo Driver de Motor Ponte H Duplo BTS7960 43A com dissipador (link atualizado)",
+        "foto": "https://ae-pic-a1.aliexpress-media.com/kf/Sadcd2b18b65a4b8688f7f7a750425a2aG.jpg"
       }
     ],
     "escolha": 0,
@@ -2132,14 +2092,14 @@ const ITENS = [
       {
         "id": "opt_seed_CMD-01_0",
         "loja": "ALI",
-        "link": "https://pt.aliexpress.com/item/1005003112416562.html",
+        "link": "https://pt.aliexpress.com/item/1005004340587966.html",
         "preco": 12.78,
         "freteGratis": false,
         "freteValor": 20.51,
         "escolhida": true,
         "variacao": "DC 24V",
-        "obs": "Rel HH64P LY4NJ 24Vcc 10A + Base PTF14A (selecionar DC 24V + Com Tomada)",
-        "foto": "https://ae-pic-a1.aliexpress-media.com/kf/H7d0cfde52d014a0f9e17c21e94803bf92.jpg"
+        "obs": "Relé HH64P / LY4NJ 24Vcc 10A 14 Pinos + Base PTF14A para trilho DIN (link atualizado)",
+        "foto": "https://ae-pic-a1.aliexpress-media.com/kf/Saf7bcb24dca24445a27d5738a2fe507eN.jpg"
       }
     ],
     "escolha": 0,
@@ -2482,8 +2442,8 @@ const ITENS = [
     "critico": false,
     "item": "Conversor Step-Down T2 (24 Vcc → 5,0 Vcc / 5 A) — Lógica e Sensores",
     "qtd": "1",
-    "espec": "Alimenta o barramento BD-5V (Arduino Mega, ESP32, Placa de 8 relés, IHM ES3C28P, RTC, MAX485 e sensores). Entrada 24 Vcc, saída 5,0 Vcc regulada, capacidade contínua de 5 A.",
-    "conferir": "Tensão de entrada suportando 24 Vcc (faixa 15–35 V) e saída fixa de 5 Vcc com corrente mínima de 5 A.",
+    "espec": "Alimenta o barramento BD-5V (Arduino Mega, ESP32, Placa de 8 relés, IHM ES3C28P, RTC, MAX485 e sensores). Entrada 24 Vcc (da fonte PS1), saída 5,0 Vcc regulada, capacidade contínua de 5 A (24V para 5V, não é 12-5).",
+    "conferir": "Tensão de entrada nominal 24 Vcc (faixa 15–35 V) e saída fixa/regulada de 5,0 Vcc com corrente mínima de 5 A.",
     "busca_ml": "conversor step down 24v para 5v 5a",
     "busca_ali": "DC DC step down converter 24V to 5V 5A buck module",
     "opcoes": [
@@ -2496,7 +2456,7 @@ const ITENS = [
         "freteValor": "0.00",
         "escolhida": true,
         "variacao": "24V to 5V 5A",
-        "obs": "Conversor Buck redutor de tensão 24V para 5V 5A (T2 - Eletrônica de comando)",
+        "obs": "Conversor Buck redutor de tensão 24V para 5V 5A (T2 - Eletrônica de comando e barramento BD-5V)",
         "foto": "https://ae-pic-a1.aliexpress-media.com/kf/Sb0cd7d20bf9c4d0aa94b91a171b2aad63.jpg"
       }
     ],
@@ -2531,124 +2491,12 @@ const ITENS = [
     "senai": false
   },
   {
-    "id": "ALI-04",
-    "bloco": "7 · Alimentação",
-    "critico": false,
-    "item": "Cabo de força PP 3 × 1,0 mm² com plugue 10 A (NBR 14136) + prensa-cabo de entrada",
-    "qtd": "1 (1,5–2 m)",
-    "espec": "Entrada 127 V do painel: fase, neutro e terra (PE) até o disjuntor Q0 e a barra PE.",
-    "conferir": "Plugue de 3 pinos 10 A; cabo PP (dupla isolação); prensa-cabo PG compatível com o diâmetro do cabo.",
-    "busca_ml": "cabo pp 3x1mm plugue 10a",
-    "busca_ali": "power cord 3 pin brazil 10A",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-01",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Terminal tubular (ilhós) SIMPLES — kit sortido 0,25 a 2,5 mm²",
-    "qtd": "1 kit (~1000 peças)",
-    "espec": "Para todas as pontas de cabo flexível que entram em borne de parafuso (DIN 46228). Cores: 0,25 azul-claro/violeta · 0,5 branco · 0,75 cinza · 1,0 vermelho · 1,5 preto.",
-    "conferir": "Conferir se o kit cobre 0,25 / 0,5 / 0,75 / 1,0 / 1,5 mm² — são as bitolas do projeto.",
-    "busca_ml": "terminal tubular ilhós kit sortido",
-    "busca_ali": "insulated ferrule kit 0.25-2.5mm2 1200pcs",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-02",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Terminal tubular DUPLO (2 fios num borne) 0,5 / 0,75 / 1,0 / 1,5 mm²",
-    "qtd": "~20 de cada bitola",
-    "espec": "Para pontes e derivações onde dois fios entram no mesmo borne (barramentos 0 V, 24 V, 12 V).",
-    "conferir": "Duplo (twin ferrule). Mesma cor por bitola do simples.",
-    "busca_ml": "terminal tubular duplo",
-    "busca_ali": "twin ferrule kit 0.5 0.75 1.0 1.5",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-03",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Anilhas de identificação de cabos (marcadores 0–9 e letras)",
-    "qtd": "1 kit para 0,5–1,5 mm²",
-    "espec": "Identificação de cada fio nas duas pontas, igual ao diagrama (ex.: R1, BD-5V, I3).",
-    "conferir": "Modelo EC-0 (0,5–1,5 mm²) e EC-1 se usar 2,5 mm². Alternativa: etiquetas termorretráteis impressas.",
-    "busca_ml": "anilha identificação fio ec0",
-    "busca_ali": "cable marker EC-0 0-9 letters",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-04",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Tubo termorretrátil — kit sortido 2:1 (1 a 10 mm)",
-    "qtd": "1 kit",
-    "espec": "Isolar emendas, pontas de sensores, terminais do Peltier/PTC e reforço na saída dos prensa-cabos.",
-    "conferir": "Relação 2:1, várias cores (preto e vermelho no mínimo).",
-    "busca_ml": "kit termo retrátil sortido",
-    "busca_ali": "heat shrink tube kit 2:1 assorted",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-05",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Abraçadeiras de nylon + bases adesivas",
-    "qtd": "100 + 20",
-    "espec": "Amarração do chicote painel → câmara e organização dentro das canaletas.",
-    "conferir": "Abraçadeira 2,5 × 100 mm; base adesiva 20 × 20 mm.",
-    "busca_ml": "abraçadeira nylon base adesiva",
-    "busca_ali": "cable tie 100mm adhesive mount",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MON-06",
-    "bloco": "10 · Montagem do painel e acabamento",
-    "critico": false,
-    "item": "Etiquetas de sinalização NR-10 (risco de choque) e identificação do painel",
-    "qtd": "1 kit",
-    "espec": "Placa de advertência na porta do painel e identificação dos componentes (Q0, KM1, F1–F3, T2, T3).",
-    "conferir": "Adesivo vinil resistente.",
-    "busca_ml": "adesivo risco de choque elétrico",
-    "busca_ali": "electrical hazard warning sticker",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
-    "id": "MAQ-01",
-    "bloco": "11 · Maquete (base e cenário)",
-    "critico": false,
-    "item": "Chapa de pinus para a base da maquete 1500 × 500 mm",
-    "qtd": "1 (espessura 18–20 mm)",
-    "espec": "Base de toda a planta: painel, câmara, subestação e postes (ver doc 10).",
-    "conferir": "Madeira seca e sem empeno; pode ser emendada de tábuas coladas. Lixar e aplicar seladora.",
-    "busca_ml": "chapa pinus 1500x500",
-    "busca_ali": "",
-    "opcoes": [],
-    "escolha": 0,
-    "senai": false
-  },
-  {
     "id": "COM-01",
     "bloco": "8 · Comunicação",
-    "item": "Antena 2,4 GHz SMA macho (pino central) 3 dBi articulável",
+    "item": "Antena 2,4 GHz SMA macho 3 dBi articulável",
     "qtd": "1",
     "espec": "Antena externa do ESP32.",
-    "conferir": "⚠️ SMA comum, NÃO RP-SMA: a antena 'SMA macho' tem PINO no centro; o pigtail 'SMA fêmea' tem FURO. Se misturar RP-SMA com SMA não há contato e o Wi-Fi fica fraco.",
+    "conferir": "Conferir se base, pigtail e antena usam o mesmo padrão (SMA ou RP-SMA).",
     "busca_ml": "antena 2.4ghz sma macho 3dbi",
     "busca_ali": "2.4GHz WiFi antenna 3dBi SMA male",
     "opcoes": [
@@ -2672,10 +2520,10 @@ const ITENS = [
   {
     "id": "COM-02",
     "bloco": "8 · Comunicação",
-    "item": "Pigtail IPEX/u.FL (MHF1) → SMA fêmea de painel com porca, 20–30 cm",
+    "item": "Pigtail IPEX (u.FL) → SMA fêmea de painel, 20–30 cm",
     "qtd": "1",
     "espec": "Ligação da placa ao conector de painel.",
-    "conferir": "A ponta SMA fêmea do pigtail JÁ É o conector de painel (vem com porca e arruela) — não precisa comprar conector separado. Ponta IPEX tipo MHF1/u.FL (a do ESP32-WROOM-32U).",
+    "conferir": "Comprar o conjunto com conector de painel — evita peça redundante.",
     "busca_ml": "pigtail ipex u.fl para sma fêmea painel",
     "busca_ali": "IPEX u.FL to SMA female bulkhead pigtail RG178",
     "opcoes": [
@@ -2786,12 +2634,12 @@ const ITENS = [
   {
     "id": "ELE-07",
     "bloco": "3 · Cargas de ensaio (LED 12 V)",
-    "item": "Chapa de alumínio 5052, 1,0 mm — retalho 250 × 200 mm",
-    "qtd": "1",
-    "espec": "O berço das duas placas: planificação de 210 × 180 mm, uma dobra a 90° em y = 90. O pé de 210 × 90 parafusa nas 4 cantoneiras CAM-24 que já existem, no lugar da bandeja das lâmpadas. Desenho em placa_leds/berco_placas.dxf.",
-    "conferir": "1,0 mm e não 2 mm: o berço não carrega peso, só alinha as placas. Quem corta a laser dobra na dobradeira — mande as linhas de dobra no arquivo. A janela de 150 × 50 é recorte, não gravação.",
-    "busca_ml": "chapa alumínio 1mm retalho",
-    "busca_ali": "aluminum sheet 1mm 5052 plate",
+    "item": "Tiras de alumínio (2× barras chatas 210 × 20 mm) — Suporte das Placas",
+    "qtd": "2 tiras",
+    "espec": "Duas tiras de alumínio (barra chata comercial 210 × 20 mm, espessura 1,0 a 2,0 mm) parafusadas nas cantoneiras CAM-24 das laterais de acrílico. Substitui a antiga chapa maciça dobrada, deixando a passagem de ar vertical 100% livre.",
+    "conferir": "Duas barras chatas de 210 mm. Podem ser cortadas de barra chata comercial ou retalho de serralheria no próprio SENAI. Furação Ø4,5 mm nas extremidades para M4 e furos Ø3,2 mm para os espaçadores M3.",
+    "busca_ml": "barra chata aluminio 3/4 x 1/16",
+    "busca_ali": "aluminum flat bar strip 20mm",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -2802,7 +2650,7 @@ const ITENS = [
         "vendedor": "SENAI",
         "foto": null,
         "data": "2026-11-01",
-        "obs": "Item que o SENAI vai fornecer ou comprar para o projeto (Custo R$ 0,00 para os alunos).",
+        "obs": "Retalho de barra chata de alumínio cortada e furada na oficina do SENAI (Custo R$ 0,00).",
         "frete_gratis": true
       }
     ],
@@ -2813,10 +2661,10 @@ const ITENS = [
   {
     "id": "ELE-08",
     "bloco": "3 · Cargas de ensaio (LED 12 V)",
-    "item": "Parafuso M4 × 10 mm + porca (berço nas cantoneiras CAM-24)",
+    "item": "Parafuso M4 × 10 mm + porca (fixação das tiras nas cantoneiras CAM-24)",
     "qtd": "4 conjuntos",
-    "espec": "Um por furo do pé do berço, nos mesmos 4 pontos onde a bandeja das lâmpadas era presa. Não há mais distanciador de nylon: o afastamento agora é o próprio pé dobrado.",
-    "conferir": "M4 × 10 com porca e arruela. Se as cantoneiras vierem com parafuso de 8 mm, use o mesmo — o pé tem 1 mm de chapa.",
+    "espec": "Quatro parafusos M4 × 10 mm com porca e arruela para fixar as duas tiras de alumínio nas 4 cantoneiras CAM-24 coladas no acrílico.",
+    "conferir": "M4 × 10 mm em aço inox ou latão com porca e arruela.",
     "busca_ml": "parafuso m4 10mm porca",
     "busca_ali": "M4 10mm screw and nut stainless steel",
     "opcoes": [
@@ -2840,12 +2688,12 @@ const ITENS = [
   {
     "id": "ELE-09",
     "bloco": "3 · Cargas de ensaio (LED 12 V)",
-    "item": "Parafuso M3 × 8 mm + porca (fixação das placas no berço)",
+    "item": "Kit 8× Espaçadores M3 (8 a 10 mm) nylon/latão + parafusos M3",
     "qtd": "8 conjuntos",
-    "espec": "Um por furo de canto de cada PCB — 4 por placa, 8 no total.",
-    "conferir": "Cabeça chata ou panela, com arruela de nylon: a cabeça não pode encostar em trilha. Alternativa: M3 auto-atarraxante em spacer de nylon.",
-    "busca_ml": "parafuso m3 8mm porca",
-    "busca_ali": "M3 8mm screw and nut stainless steel",
+    "espec": "8 espaçadores roscados M3 de 8 mm a 10 mm (nylon ou latão) com parafusos e porcas M3. Fixam as 2 placas nas tiras de alumínio com 10 mm de vão livre, garantindo isolamento elétrico das soldas e convecção de ar por baixo da placa.",
+    "conferir": "Espaçadores M3 de 8 ou 10 mm (nylon ou latão com arruela isolante). Evitam qualquer contato das soldas e trilhas com o alumínio.",
+    "busca_ml": "espacador sextavado m3 nylon 10mm",
+    "busca_ali": "M3 nylon standoff spacer screws nuts kit",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -2856,7 +2704,7 @@ const ITENS = [
         "vendedor": "SENAI",
         "foto": null,
         "data": "2026-11-01",
-        "obs": "Item que o SENAI vai fornecer ou comprar para o projeto (Custo R$ 0,00 para os alunos).",
+        "obs": "Espaçadores M3 de 8 a 10 mm para isolamento e fixação das placas de ensaio.",
         "frete_gratis": true
       }
     ],
@@ -3287,7 +3135,7 @@ function renderItens() {
           `;
         } else {
           opcoes.forEach((opt, idx) => {
-            const pProd = parseVal(opt.preco);
+            const pProd = parseVal(opt.preco) * multItem(item.id);
             const pFrete = opt.freteGratis ? 0 : parseVal(opt.freteValor);
             const pTotal = pProd + pFrete;
 
@@ -3362,8 +3210,13 @@ function renderItens() {
                     </div>
 
                     <div class="field-group">
-                      <label class="field-label">Valor do Produto (R$):</label>
+                      <label class="field-label">Valor do Produto (R$) — por anúncio:</label>
                       <input type="number" step="0.01" class="input-box" placeholder="0.00" value="${opt.preco || ''}" onchange="atualizarCampoOpcao('${item.id}', '${opt.id}', 'preco', this.value)">
+                    </div>
+
+                    <div class="field-group">
+                      <label class="field-label" title="Quantas vezes comprar este anúncio. Kits que já vêm com várias peças = 1.">Comprar quantos? (×)</label>
+                      <input type="number" min="1" step="1" class="input-box" style="max-width:80px; ${multItem(item.id) > 1 ? 'border-color:#7c3aed; font-weight:800; color:#5b21b6' : ''}" value="${multItem(item.id)}" onchange="definirMult('${item.id}', this.value)">
                     </div>
 
                     <div class="field-group" style="grid-column: span 2;">
@@ -3813,7 +3666,7 @@ function atualizarKPIs() {
 
       const opt = dataItem.opcoes.find(o => o.escolhida) || dataItem.opcoes[0];
       if (opt) {
-        const pP = parseVal(opt.preco);
+        const pP = parseVal(opt.preco) * multItem(it.id);
         const pF = opt.freteGratis ? 0 : parseVal(opt.freteValor);
         somaProd += pP;
         somaFrete += pF;
@@ -4114,7 +3967,7 @@ function renderGrupo() {
       <td>${escolhida?.foto ? `<img src="${escHTML(escolhida.foto)}" alt="">` : ''}</td>
       <td><div class="gp-nome"><b>${escHTML(it.item)}</b>${it.critico ? ' 🔥' : ''}</div>
           <div style="font-size:11.5px;color:#64748b">${it.id} · Qtd ${escHTML(it.qtd || '1')}${escolhida?.variacao ? ' · 🎯 ' + escHTML(escolhida.variacao) : ''}</div></td>
-      <td style="white-space:nowrap">${c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}</td>
+      <td style="white-space:nowrap">${c ? `<b>${formatMoeda(c.t)}</b><div style="font-size:11px;color:#64748b">${c.m > 1 ? `<b style="color:#7c3aed">${c.m}× ${formatMoeda(c.unit)}</b> · ` : ''}${c.freteTxt}</div>` : '<span style="color:#d9480f;font-size:12px">⚠️ sem link</span>'}</td>
       <td><span class="gp-chip" style="background:${corMembro(d.responsavel)}">${escHTML(d.responsavel)}</span></td>
       <td style="white-space:nowrap">${escolhida ? `<a href="${escHTML(linkLimpo(escolhida.link))}" target="_blank" style="font-size:12px;font-weight:700;color:#2563eb;text-decoration:none">🔗 Abrir</a>` : ''}
           <button class="gp-acoes" style="margin-left:6px;font-size:11px;padding:2px 7px;border-radius:5px;border:1px solid #cbd5e1;background:#fff;cursor:pointer" onclick="devolverItem('${it.id}')" title="Volta para a Lista 1">↩ Devolver</button></td>
@@ -4180,7 +4033,7 @@ function gerarPDF() {
       indice += `<tr><td>${num}</td><td><a href="#${anc}">${escHTML(it.item)}</a></td><td>${loja}</td><td class="v">${formatMoeda(c.t)}</td></tr>`;
       blocoHtml += `<div class="rp-item" id="${anc}">${foto}<div class="rp-corpo">
           <div class="rp-tit"><span class="chk"></span>${num}. ${escHTML(it.item)}${tag}</div>
-          <div>Qtd: <b>${escHTML(it.qtd || '1')}</b> · Loja: <b>${loja}</b></div>
+          <div>Qtd: <b>${escHTML(it.qtd || '1')}</b>${c.m > 1 ? ` · <b style="color:#7c3aed">comprar ${c.m}× o anúncio (${formatMoeda(c.unit)} cada)</b>` : ''} · Loja: <b>${loja}</b></div>
           ${escolhida.variacao ? `<div class="rp-var">🎯 Selecionar a variação: <b>${escHTML(escolhida.variacao)}</b> — a tela deve mostrar ~${formatMoeda(c.p)}</div>` : ''}
           ${escolhida.obs ? `<div>📝 ${escHTML(escolhida.obs)}</div>` : ''}
           <a class="rp-link" href="${escHTML(link)}">🔗 Abrir anúncio</a>
@@ -4255,9 +4108,25 @@ function opcaoDoItem(itemId) {
   return { opcoes, escolhida: opcoes.find(o => o.escolhida) || opcoes[0] };
 }
 
+// Quantas vezes o anúncio é comprado (store[id].mult). Ex.: BTS7960 e ventoinha 40×40 = 2.
+// O padrão vem do catálogo (ITENS[].mult); o grupo pode mudar no card.
+function multItem(id) {
+  const v = Number(store[id]?.mult ?? ITENS.find(i => i.id === id)?.mult);
+  return v >= 1 ? Math.round(v) : 1;
+}
+function multDe(opt) {
+  for (const [id, d] of Object.entries(store)) if (d.opcoes && d.opcoes.includes(opt)) return multItem(id);
+  return 1;
+}
+function definirMult(id, v) {
+  dadosItem(id).mult = Math.max(1, Math.round(Number(v) || 1));
+  salvarStore(); atualizarKPIs(); renderItens();
+}
+
 function custoOpcao(opt) {
-  const p = parseVal(opt.preco), f = opt.freteGratis ? 0 : parseVal(opt.freteValor);
-  return { p, f, t: p + f, freteTxt: opt.freteGratis ? 'frete grátis' : (f ? 'frete ' + formatMoeda(f) : 'frete ?') };
+  const m = multDe(opt);
+  const unit = parseVal(opt.preco), p = unit * m, f = opt.freteGratis ? 0 : parseVal(opt.freteValor);
+  return { unit, m, p, f, t: p + f, freteTxt: opt.freteGratis ? 'frete grátis' : (f ? 'frete ' + formatMoeda(f) : 'frete ?') };
 }
 
 const NOME_LOJA = { ALI: 'AliExpress', ML: 'Mercado Livre', SHOPEE: 'Shopee', LOCAL: 'Loja física', OUTRO: 'Web' };
@@ -4307,7 +4176,7 @@ function gerarTextoZap() {
 
       if (modo === 'checklist') {
         txt += `☐ *${num}. ${it.item}*${it.critico ? ' 🔥' : ''}\n`;
-        txt += `     ${/^\d+$/.test(qtd) ? qtd + ' un' : qtd} · ${loja} · *${formatMoeda(c.t)}* _(${c.freteTxt})_\n`;
+        txt += `     ${c.m > 1 ? `*comprar ${c.m}×* (${formatMoeda(c.unit)} cada)` : (/^\d+$/.test(qtd) ? qtd + ' un' : qtd)} · ${loja} · *${formatMoeda(c.t)}* _(${c.freteTxt})_\n`;
         if (escolhida.variacao) txt += `     🎯 Marcar: _${escolhida.variacao}_\n`;
         if (comLinks) txt += `     🔗 ${linkLimpo(escolhida.link)}\n`;
         if (foto) txt += `     📷 ${foto}\n`;
