@@ -882,6 +882,7 @@
     <label>👤 Eu sou:
       <select id="eu-sou" class="input-box" style="width:auto; padding:4px 8px; font-size:13px;" onchange="definirEuSou(this.value)"></select>
     </label>
+    <button id="btn-recuperar" class="btn btn-sm" style="display:none; background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; font-weight:700;" onclick="recuperarLinksLocais()"></button>
     <button id="btn-enviar-grupo" class="btn btn-sm" style="display:none; background:#f59e0b; color:#111; border:none; padding:6px 12px; border-radius:6px; font-weight:700;" onclick="enviarListaParaGrupo()" title="Publica seus links, preços e fotos para todo o grupo">☁️ Enviar minha lista para o grupo</button>
   </div>
 
@@ -1049,13 +1050,13 @@ const ITENS = [
   {
     "id": "CAM-02",
     "bloco": "1 · Núcleo térmico da câmara",
-    "critico": false,
-    "item": "Dissipador do lado quente (DISPENSADO — Já incluso no Kit CAM-01)",
-    "qtd": "1",
-    "espec": "Dispensado: o dissipador grande do lado quente e as ventoinhas já vêm integrados no conjunto do kit Peltier duplo (CAM-01).",
-    "conferir": "NÃO COMPRAR separadamente se o kit CAM-01 já trouxer o radiador com ventoinhas.",
-    "busca_ml": "dissipador alumínio 40x40 peltier grande aletado",
-    "busca_ali": "aluminum heatsink 40x40 high performance peltier",
+    "critico": true,
+    "item": "Ventoinha 12 V com 3 fios (tacômetro) para o dissipador do lado quente — substitui as do kit CAM-01",
+    "qtd": "Igual ao kit (normalmente 2)",
+    "espec": "Ventoinha com fio amarelo de RPM (tacômetro) para o firmware detectar ventoinha parada — sem ela o lado quente superaquece e a Peltier queima.",
+    "conferir": "Medir a ventoinha que vem no kit (90, 92 ou 80 mm e espessura) e a furação antes de comprar. Tem que ser 3 fios (vermelho, preto, amarelo) e 12 V.",
+    "busca_ml": "ventoinha 12v 3 fios 92mm rpm",
+    "busca_ali": "12V 3 pin fan tachometer 90mm 92mm ball bearing",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1071,7 +1072,7 @@ const ITENS = [
       }
     ],
     "escolha": 0,
-    "senai": true
+    "senai": false
   },
   {
     "id": "CAM-03",
@@ -1106,7 +1107,7 @@ const ITENS = [
     "item": "Ventoinha axial quadrada 40×40×10 mm 12 V (boca dos dutos VD1/VD2)",
     "qtd": "2",
     "espec": "Ventoinha axial convencional de 40×40×10 mm, 12 Vcc (2 fios, sem tacômetro, alimentação direta +12V e GND), para encaixe plano na boca dos dois dutos.",
-    "conferir": "Modelo AXIAL quadrado 40 mm 12V com 2 fios (conector 2 pinos, 4 furos de fixação nos cantos). Não precisa de 3º fio (tacômetro).",
+    "conferir": "Modelo AXIAL quadrado 40 mm 12V com 2 fios (conector 2 pinos, 4 furos de fixação nos cantos). Não precisa de 3º fio (tacômetro). ⚠️ Escolher a variação de 3 FIOS (3PIN, com RPM) — a de 2 fios não informa a rotação.",
     "busca_ml": "cooler 40mm 12v 40x40",
     "busca_ali": "4010 12V DC axial cooling fan 40x40x10mm 2pin",
     "opcoes": [
@@ -1349,12 +1350,12 @@ const ITENS = [
   {
     "id": "VED-08",
     "bloco": "2 · Vedação e montagem da câmara",
-    "item": "Bandeja de alumínio removível (condensado)",
+    "item": "Calha coletora de condensado sob o Peltier (parede traseira) com saída de dreno",
     "qtd": "1",
-    "espec": "Bandeja retirada pela porta. Sem dreno fixo — decisão da V9.",
-    "conferir": "Dimensionar pelo piso útil real: 200 × 100 mm.",
-    "busca_ml": "bandeja alumínio pequena",
-    "busca_ali": "small aluminum tray container",
+    "espec": "Substitui a bandeja de alumínio. Fica logo abaixo do dissipador frio, inclinada para a saída; a saída atravessa a parede traseira com espigão de 8 mm.",
+    "conferir": "Pode ser feita em acrílico no corte a laser (SENAI) ou chapa inox dobrada. Confirmar inclinação mínima de 2–3° até a saída.",
+    "busca_ml": "calha coletora condensado pequena",
+    "busca_ali": "stainless drip tray small",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1371,17 +1372,17 @@ const ITENS = [
     ],
     "escolha": 0,
     "critico": false,
-    "senai": true
+    "senai": false
   },
   {
     "id": "VED-09",
     "bloco": "2 · Vedação e montagem da câmara",
-    "item": "Tubo de silicone Ø 4 mm (respiro)",
-    "qtd": "0,5 m",
-    "espec": "Respiro da câmara pelo furo de 6 mm da parede traseira.",
-    "conferir": "Silicone, não PVC: precisa manter flexibilidade no frio.",
-    "busca_ml": "tubo silicone 4mm",
-    "busca_ali": "food grade silicone tube 4mm",
+    "item": "Mangueira de silicone Ø interno 8 mm (dreno + respiro no mesmo tubo)",
+    "qtd": "1 m",
+    "espec": "Ø 8 mm para a água escorrer sem formar 'tampão' — com 4 mm a tensão superficial trava a água e bloqueia o respiro.",
+    "conferir": "Silicone atóxico, Ø interno 8 mm, parede 1,5–2 mm.",
+    "busca_ml": "mangueira silicone 8mm",
+    "busca_ali": "silicone tube 8mm inner diameter food grade",
     "opcoes": [
       {
         "loja": "SENAI",
@@ -1398,7 +1399,35 @@ const ITENS = [
     ],
     "escolha": 0,
     "critico": false,
-    "senai": true
+    "senai": false
+  },
+  {
+    "id": "VED-14",
+    "bloco": "2 · Vedação e montagem da câmara",
+    "critico": false,
+    "item": "Recipiente fechado 1–2 L para o condensado (pote com tampa rosqueável)",
+    "qtd": "1",
+    "espec": "Recebe a água do dreno. A tampa tem 2 furos: entrada do dreno (acima do nível da água) e um respiro pequeno com sílica gel.",
+    "conferir": "Tampa com vedação. O tubo do dreno NÃO pode ficar mergulhado na água, senão deixa de funcionar como respiro.",
+    "busca_ml": "pote hermético 2 litros tampa rosca",
+    "busca_ali": "plastic jar screw lid 2L airtight",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "VED-15",
+    "bloco": "2 · Vedação e montagem da câmara",
+    "critico": false,
+    "item": "Conector passa-parede com espigão 8 mm (saída do dreno na parede traseira)",
+    "qtd": "2 (câmara + tampa do pote)",
+    "espec": "Conector com porca e anel de vedação para atravessar o acrílico e a tampa do recipiente.",
+    "conferir": "Espigão para mangueira de 8 mm; rosca e porca compatíveis com a espessura do acrílico.",
+    "busca_ml": "conector passa parede espigão 8mm",
+    "busca_ali": "bulkhead hose barb 8mm nut",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
   },
   {
     "id": "VED-10",
@@ -1668,6 +1697,20 @@ const ITENS = [
     ],
     "escolha": 0,
     "critico": null,
+    "senai": false
+  },
+  {
+    "id": "ELE-10",
+    "bloco": "3 · Cargas de ensaio (LED 12 V)",
+    "critico": false,
+    "item": "Espaçador M3 de nylon 10 mm macho-fêmea (placas sobre o berço de alumínio)",
+    "qtd": "8 + 4 reserva",
+    "espec": "Mantém a solda das placas ilhadas a 10 mm do berço de alumínio — sem ele a solda encosta no metal e dá curto.",
+    "conferir": "Nylon (isolante), M3, 10 mm. Usar também arruela de nylon embaixo do parafuso.",
+    "busca_ml": "espaçador nylon m3 10mm",
+    "busca_ali": "M3 nylon standoff 10mm male female kit",
+    "opcoes": [],
+    "escolha": 0,
     "senai": false
   },
   {
@@ -1972,9 +2015,9 @@ const ITENS = [
     "bloco": "5 · Sensores e potência",
     "critico": true,
     "item": "DS18B20 à prova d'água + adaptador com pull-up 4,7 kΩ",
-    "qtd": "1 kit",
+    "qtd": "2 (câmara + dissipador quente)",
     "espec": "Uma sonda no dissipador quente, com adaptador AD-1 já com o pull-up.",
-    "conferir": "O SENAI já possui a sonda externa de temperatura DS18B20; a compra deste kit do AliExpress garante a base/placa adaptadora com bornes e resistor pull-up de 4,7 kΩ integrado.",
+    "conferir": "O SENAI já possui a sonda externa de temperatura DS18B20; a compra deste kit do AliExpress garante a base/placa adaptadora com bornes e resistor pull-up de 4,7 kΩ integrado. ⚠️ O projeto usa 2 sensores (interno e no dissipador) — o kit escolhido tem 1.",
     "busca_ml": "ds18b20 à prova d'água com adaptador",
     "busca_ali": "DS18B20 waterproof temperature probe with adapter",
     "opcoes": [
@@ -2490,12 +2533,124 @@ const ITENS = [
     "senai": false
   },
   {
+    "id": "ALI-04",
+    "bloco": "7 · Alimentação",
+    "critico": false,
+    "item": "Cabo de força PP 3 × 1,0 mm² com plugue 10 A (NBR 14136) + prensa-cabo de entrada",
+    "qtd": "1 (1,5–2 m)",
+    "espec": "Entrada 127 V do painel: fase, neutro e terra (PE) até o disjuntor Q0 e a barra PE.",
+    "conferir": "Plugue de 3 pinos 10 A; cabo PP (dupla isolação); prensa-cabo PG compatível com o diâmetro do cabo.",
+    "busca_ml": "cabo pp 3x1mm plugue 10a",
+    "busca_ali": "power cord 3 pin brazil 10A",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-01",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Terminal tubular (ilhós) SIMPLES — kit sortido 0,25 a 2,5 mm²",
+    "qtd": "1 kit (~1000 peças)",
+    "espec": "Para todas as pontas de cabo flexível que entram em borne de parafuso (DIN 46228). Cores: 0,25 azul-claro/violeta · 0,5 branco · 0,75 cinza · 1,0 vermelho · 1,5 preto.",
+    "conferir": "Conferir se o kit cobre 0,25 / 0,5 / 0,75 / 1,0 / 1,5 mm² — são as bitolas do projeto.",
+    "busca_ml": "terminal tubular ilhós kit sortido",
+    "busca_ali": "insulated ferrule kit 0.25-2.5mm2 1200pcs",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-02",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Terminal tubular DUPLO (2 fios num borne) 0,5 / 0,75 / 1,0 / 1,5 mm²",
+    "qtd": "~20 de cada bitola",
+    "espec": "Para pontes e derivações onde dois fios entram no mesmo borne (barramentos 0 V, 24 V, 12 V).",
+    "conferir": "Duplo (twin ferrule). Mesma cor por bitola do simples.",
+    "busca_ml": "terminal tubular duplo",
+    "busca_ali": "twin ferrule kit 0.5 0.75 1.0 1.5",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-03",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Anilhas de identificação de cabos (marcadores 0–9 e letras)",
+    "qtd": "1 kit para 0,5–1,5 mm²",
+    "espec": "Identificação de cada fio nas duas pontas, igual ao diagrama (ex.: R1, BD-5V, I3).",
+    "conferir": "Modelo EC-0 (0,5–1,5 mm²) e EC-1 se usar 2,5 mm². Alternativa: etiquetas termorretráteis impressas.",
+    "busca_ml": "anilha identificação fio ec0",
+    "busca_ali": "cable marker EC-0 0-9 letters",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-04",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Tubo termorretrátil — kit sortido 2:1 (1 a 10 mm)",
+    "qtd": "1 kit",
+    "espec": "Isolar emendas, pontas de sensores, terminais do Peltier/PTC e reforço na saída dos prensa-cabos.",
+    "conferir": "Relação 2:1, várias cores (preto e vermelho no mínimo).",
+    "busca_ml": "kit termo retrátil sortido",
+    "busca_ali": "heat shrink tube kit 2:1 assorted",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-05",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Abraçadeiras de nylon + bases adesivas",
+    "qtd": "100 + 20",
+    "espec": "Amarração do chicote painel → câmara e organização dentro das canaletas.",
+    "conferir": "Abraçadeira 2,5 × 100 mm; base adesiva 20 × 20 mm.",
+    "busca_ml": "abraçadeira nylon base adesiva",
+    "busca_ali": "cable tie 100mm adhesive mount",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MON-06",
+    "bloco": "10 · Montagem do painel e acabamento",
+    "critico": false,
+    "item": "Etiquetas de sinalização NR-10 (risco de choque) e identificação do painel",
+    "qtd": "1 kit",
+    "espec": "Placa de advertência na porta do painel e identificação dos componentes (Q0, KM1, F1–F3, T2, T3).",
+    "conferir": "Adesivo vinil resistente.",
+    "busca_ml": "adesivo risco de choque elétrico",
+    "busca_ali": "electrical hazard warning sticker",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
+    "id": "MAQ-01",
+    "bloco": "11 · Maquete (base e cenário)",
+    "critico": false,
+    "item": "Chapa de pinus para a base da maquete 1500 × 500 mm",
+    "qtd": "1 (espessura 18–20 mm)",
+    "espec": "Base de toda a planta: painel, câmara, subestação e postes (ver doc 10).",
+    "conferir": "Madeira seca e sem empeno; pode ser emendada de tábuas coladas. Lixar e aplicar seladora.",
+    "busca_ml": "chapa pinus 1500x500",
+    "busca_ali": "",
+    "opcoes": [],
+    "escolha": 0,
+    "senai": false
+  },
+  {
     "id": "COM-01",
     "bloco": "8 · Comunicação",
-    "item": "Antena 2,4 GHz SMA macho 3 dBi articulável",
+    "item": "Antena 2,4 GHz SMA macho (pino central) 3 dBi articulável",
     "qtd": "1",
     "espec": "Antena externa do ESP32.",
-    "conferir": "Conferir se base, pigtail e antena usam o mesmo padrão (SMA ou RP-SMA).",
+    "conferir": "⚠️ SMA comum, NÃO RP-SMA: a antena 'SMA macho' tem PINO no centro; o pigtail 'SMA fêmea' tem FURO. Se misturar RP-SMA com SMA não há contato e o Wi-Fi fica fraco.",
     "busca_ml": "antena 2.4ghz sma macho 3dbi",
     "busca_ali": "2.4GHz WiFi antenna 3dBi SMA male",
     "opcoes": [
@@ -2519,10 +2674,10 @@ const ITENS = [
   {
     "id": "COM-02",
     "bloco": "8 · Comunicação",
-    "item": "Pigtail IPEX (u.FL) → SMA fêmea de painel, 20–30 cm",
+    "item": "Pigtail IPEX/u.FL (MHF1) → SMA fêmea de painel com porca, 20–30 cm",
     "qtd": "1",
     "espec": "Ligação da placa ao conector de painel.",
-    "conferir": "Comprar o conjunto com conector de painel — evita peça redundante.",
+    "conferir": "A ponta SMA fêmea do pigtail JÁ É o conector de painel (vem com porca e arruela) — não precisa comprar conector separado. Ponta IPEX tipo MHF1/u.FL (a do ESP32-WROOM-32U).",
     "busca_ml": "pigtail ipex u.fl para sma fêmea painel",
     "busca_ali": "IPEX u.FL to SMA female bulkhead pigtail RG178",
     "opcoes": [
@@ -3158,7 +3313,7 @@ function renderItens() {
                   <div class="product-thumb-container">
                     <div class="product-thumb-box" ${opt.foto ? `onclick="abrirModalFoto('${opt.foto.replace(/'/g, "\'")}', '${(opt.variacao || item.item).replace(/'/g, "\'")}')" title="Clique para ampliar a foto do produto"` : ''}>
                       ${opt.foto ? `
-                        <img src="${opt.foto}" class="product-thumb" alt="Foto ${item.id}" onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<div class=\'thumb-placeholder\'>📷 Sem foto</div>';">
+                        <img src="${opt.foto}" class="product-thumb" alt="Foto ${item.id}" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=thumb-placeholder>📷 Sem foto</div>';">
                       ` : `
                         <div class="thumb-placeholder">📷 Sem foto</div>
                       `}
@@ -3579,8 +3734,10 @@ function iniciarSync() {
   docGrupo = firebase.firestore().collection('listas').doc(window.FIREBASE_LISTA_ID || 'projeto-integrador');
   if (MODO_LOCAL) document.getElementById('btn-enviar-grupo').style.display = '';
   syncStatus('🟡 Conectando...', '#fde68a');
+  let primeiroSnapshot = true;
   docGrupo.onSnapshot(snap => {
     const d = snap.data() || {};
+    if (primeiroSnapshot) { primeiroSnapshot = false; detectarLinksSoLocais(d.store || {}); }
     ultimoSync = {};
     Object.entries(d.store || {}).forEach(([id, v]) => { store[id] = v; ultimoSync[id] = JSON.stringify(v); });
     if (Array.isArray(d.membros)) { membrosGrupo = d.membros; ultimoMembros = JSON.stringify(d.membros); }
@@ -3589,26 +3746,85 @@ function iniciarSync() {
     preencherEuSou();
     const ativo = document.activeElement;
     if (!ativo || !/INPUT|SELECT|TEXTAREA/.test(ativo.tagName)) { renderItens(); atualizarKPIs(); }
-    syncStatus(snap.exists ? `🟢 Sincronizado com o grupo · ${new Date().toLocaleTimeString('pt-BR')}` : '🟡 Lista do grupo vazia — envie a sua', snap.exists ? '#86efac' : '#fde68a');
+    if (!salvamentosPendentes) syncStatus(snap.exists ? `🟢 Sincronizado com o grupo · ${new Date().toLocaleTimeString('pt-BR')}` : '🟡 Lista do grupo vazia — envie a sua', snap.exists ? '#86efac' : '#fde68a');
   }, err => syncStatus('🔴 Erro de sincronização: ' + err.code, '#fca5a5'));
 }
 
+// Grava só os CAMPOS que mudaram (store.ITEM.opcoes, store.ITEM.responsavel...).
+// Assim "Eu vou comprar" de um colega com a página desatualizada não apaga os links de outro.
+let salvamentosPendentes = 0;
 function enviarAlteracoes() {
   if (!docGrupo) return;
   const upd = {};
+  const del = firebase.firestore.FieldValue.delete();
   Object.entries(store).forEach(([id, v]) => {
     const j = JSON.stringify(v);
-    if (ultimoSync[id] !== j) { upd['store.' + id] = v; ultimoSync[id] = j; }
+    if (ultimoSync[id] === j) return;
+    const antes = ultimoSync[id] ? JSON.parse(ultimoSync[id]) : null;
+    if (!antes) { upd['store.' + id] = v; }
+    else {
+      new Set([...Object.keys(antes), ...Object.keys(v)]).forEach(campo => {
+        if (JSON.stringify(antes[campo]) === JSON.stringify(v[campo])) return;
+        upd[`store.${id}.${campo}`] = v[campo] === undefined ? del : v[campo];
+      });
+    }
+    ultimoSync[id] = j;
   });
   const m = JSON.stringify(membrosGrupo);
   if (m !== ultimoMembros) { upd.membros = membrosGrupo; ultimoMembros = m; }
   if (!Object.keys(upd).length) return;
   upd.atualizadoEm = firebase.firestore.FieldValue.serverTimestamp();
   upd.atualizadoPor = euSou || 'anônimo';
-  docGrupo.update(upd).catch(e => {
-    if (e.code === 'not-found') return docGrupo.set({ store, membros: membrosGrupo });
-    syncStatus('🔴 Não salvou: ' + e.code, '#fca5a5');
+  salvamentosPendentes++;
+  syncStatus('🟡 Salvando…', '#fde68a');
+  docGrupo.update(upd)
+    .then(() => { if (--salvamentosPendentes === 0) syncStatus(`🟢 Salvo às ${new Date().toLocaleTimeString('pt-BR')}`, '#86efac'); })
+    .catch(e => {
+      salvamentosPendentes--;
+      if (e.code === 'not-found') return docGrupo.set({ store, membros: membrosGrupo });
+      syncStatus('🔴 NÃO SALVOU (' + e.code + ') — recarregue a página', '#fca5a5');
+      alert('⚠️ A alteração NÃO foi salva no grupo (' + e.code + '). Verifique a internet e recarregue a página.');
+    });
+}
+
+// Se este navegador tem links que o grupo não tem (ex.: editados numa aba antiga ou offline),
+// guarda uma cópia e oferece recuperar — em vez de apagar sem avisar.
+const BACKUP_KEY = 'PI_COMPRAS_BACKUP_LOCAL';
+let linksSoLocais = {};
+function detectarLinksSoLocais(nuvem) {
+  linksSoLocais = {};
+  Object.entries(store).forEach(([id, v]) => {
+    const linksNuvem = new Set((nuvem[id]?.opcoes || []).map(o => linkLimpo(o.link)).filter(Boolean));
+    const novas = (v.opcoes || []).filter(o => o.link && o.link.startsWith('http') && !linksNuvem.has(linkLimpo(o.link)));
+    if (novas.length) linksSoLocais[id] = novas;
   });
+  const n = Object.keys(linksSoLocais).length;
+  if (!n) return;
+  localStorage.setItem(BACKUP_KEY, JSON.stringify({ em: new Date().toISOString(), store: JSON.parse(JSON.stringify(store)) }));
+  const btn = document.getElementById('btn-recuperar');
+  if (btn) { btn.style.display = ''; btn.textContent = `⬆️ Recuperar ${n} itens com link deste navegador`; }
+}
+
+function recuperarLinksLocais() {
+  const ids = Object.keys(linksSoLocais);
+  if (!ids.length || !docGrupo) return;
+  if (!confirm(`Encontrei links neste navegador que não estão na lista do grupo:\n\n${ids.join(', ')}\n\nAdicionar ao grupo? (Nada do grupo é apagado: as opções novas são somadas às existentes.)`)) return;
+  const upd = {};
+  ids.forEach(id => {
+    const atuais = (store[id]?.opcoes || []).filter(o => o.link || o.loja !== 'SENAI');
+    const jaTem = new Set(atuais.map(o => linkLimpo(o.link)));
+    const novas = linksSoLocais[id].filter(o => !jaTem.has(linkLimpo(o.link)));
+    const lista = [...atuais, ...novas];
+    if (!lista.some(o => o.escolhida) && lista.length) lista[0].escolhida = true;
+    upd[`store.${id}.opcoes`] = lista;
+  });
+  upd.atualizadoEm = firebase.firestore.FieldValue.serverTimestamp();
+  upd.atualizadoPor = (euSou || 'anônimo') + ' (recuperação)';
+  docGrupo.update(upd).then(() => {
+    linksSoLocais = {};
+    document.getElementById('btn-recuperar').style.display = 'none';
+    mostrarToast(`✅ ${ids.length} itens recuperados para o grupo!`);
+  }).catch(e => alert('Falhou: ' + e.message));
 }
 
 function enviarListaParaGrupo() {
@@ -3857,9 +4073,32 @@ function pegarItem(id) {
     if (!membrosGrupo.includes(nome)) { membrosGrupo.push(nome); salvarGrupo(); }
     definirEuSou(nome);
   }
-  dadosItem(id).responsavel = euSou;
-  salvarStore(); atualizarKPIs(); renderItens();
-  mostrarToast(`🙋 ${id} separado para ${euSou} — está na Lista 3.`);
+  const aplicar = () => {
+    dadosItem(id).responsavel = euSou;
+    if (docGrupo) ultimoSync[id] = JSON.stringify(store[id]);  // já gravado pela transação
+    else salvarStore();
+    atualizarKPIs(); renderItens();
+    mostrarToast(`🙋 ${id} separado para ${euSou} — está na Lista 3.`);
+  };
+  if (!docGrupo) return aplicar();
+
+  // Reserva atômica: se dois alunos clicam ao mesmo tempo, o servidor decide quem chegou primeiro.
+  // A transação lê o valor atual no servidor; se outra pessoa já pegou, ela não grava nada.
+  const campo = new firebase.firestore.FieldPath('store', id, 'responsavel');
+  firebase.firestore().runTransaction(t => t.get(docGrupo).then(snap => {
+    const dono = snap.get(campo);
+    if (dono && dono !== euSou) throw new Error('JA_SEPARADO:' + dono);
+    t.update(docGrupo, campo, euSou,
+      'atualizadoEm', firebase.firestore.FieldValue.serverTimestamp(), 'atualizadoPor', euSou);
+  })).then(aplicar).catch(e => {
+    const m = String(e.message || e);
+    if (m.startsWith('JA_SEPARADO:')) {
+      mostrarToast(`⛔ ${id} já foi separado por ${m.slice(12)} um instante antes de você.`);
+      renderItens();
+    } else {
+      alert('⚠️ Não foi possível separar o item (' + (e.code || m) + '). Verifique a internet e tente de novo.');
+    }
+  });
 }
 
 function devolverItem(id) {
@@ -4290,6 +4529,7 @@ function mostrarToast(txt) {
 init();
 preencherEuSou();
 iniciarSync();
+window.addEventListener('beforeunload', e => { if (salvamentosPendentes) { e.preventDefault(); e.returnValue = ''; } });
 </script>
 
 </body>
