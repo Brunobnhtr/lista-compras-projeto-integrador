@@ -1026,8 +1026,8 @@ const ITENS = [
     "critico": true,
     "item": "Kit Peltier 1x TEC1-12706 com dissipador e ventoinha (RETROFIT)",
     "qtd": "1 kit",
-    "espec": "RETROFIT DE CUSTO: uma pastilha TEC1-12706 em 12 V no lugar do par em serie. Com a camara reduzida para ~5 L e isolamento de 20-30 mm de isopor, uma pastilha sustenta o ensaio de refrigeracao. O kit deve vir com pastilha + dissipador aletado + ventoinha.",
-    "conferir": "Tem que ser 12706 (nao 12710/12715). Conferir se o anuncio inclui dissipador E ventoinha: se vier so a pastilha, use um dissipador+ventoinha de cooler de PC usado (custo zero). A ventoinha do lado quente NAO pode faltar - sem ela a pastilha queima em minutos.",
+    "espec": "RETROFIT DE CUSTO: uma pastilha TEC1-12706 em 12 V no lugar do par em serie. A camara foi redesenhada para isso na revisao V13 do CAD: cavidade de 260x180x190 mm (8,9 L brutos, era 300x200x250 / 15,0 L) e isolante de 20 mm colado POR FORA do acrilico (era 1 mm por dentro). Nessa camara o modelo termico calcula equilibrio de -10,5 C com UMA pastilha - a camara antiga chegava a -5,0 C com DUAS. O kit deve vir com pastilha + dissipador aletado + ventoinha.",
+    "conferir": "Tem que ser 12706 (nao 12710/12715). Conferir se o anuncio inclui dissipador E ventoinha: se vier so a pastilha, use um dissipador+ventoinha de cooler de PC usado (custo zero). A ventoinha do lado quente NAO pode faltar - sem ela a pastilha queima em minutos. MEDIR o conjunto antes de cortar a tampa tecnica: o recorte do kit na CAM-05/ISO-09 segue apenas GRAVADO no CAD, e agora o dissipador quente tem de atravessar 20 mm de isopor alem do acrilico.",
     "busca_ml": "kit peltier duplo tec1-12706 dissipador",
     "busca_ali": "TEC1-12706 peltier cooler kit heatsink fan 12V",
     "opcoes": [
@@ -1090,27 +1090,39 @@ const ITENS = [
     "id": "CAM-03",
     "bloco": "1 · Núcleo térmico da câmara",
     "critico": true,
-    "item": "Aquecedor Cerâmico PTC 12 V / 50 W com ventoinha integrada",
+    "item": "Aquecedor Ceramico PTC 12 V / 15 W isolado (RETROFIT - era 50 W)",
     "qtd": "1",
-    "espec": "Elemento PTC cerâmico com aletas de alumínio e carcaça plástica resistente a calor, com mini ventilador axial 12 Vcc já acoplado ao corpo.",
-    "conferir": "Tensão nominal 12 Vcc, potência ~50 W. Atenção: o modelo deve vir com a ventoinha acoplada de fábrica e fiação separada da resistência.",
+    "espec": "RETROFIT DE CUSTO: aquecedor MUITO menor. A camara nova (V13: 8,9 L com 20 mm de isolante) tem UA de 0,441 W/K contra 1,46 W/K da antiga, e por isso precisa de apenas 12,5 W para manter +60 C, contra 48 W antes. ATENCAO - aqui potencia a mais e risco, nao folga: 30 W nessa camara levariam o ar a 100 C sem controle, no limite de amolecimento do acrilico. Com 15 W o pior caso para em 66 C (71 C se o ambiente estiver a 30 C) e o PWM controla o resto. Corrente cai de 4,2 A para 1,25 A.",
+    "conferir": "Elemento PTC ceramico ISOLADO (com carcaca, nao resistencia nua), 12 Vcc, 10 a 20 W - o alvo e 15 W. ESCOLHER A VARIACAO: o anuncio traz 110 V e 220 V no mesmo produto, tem de ser a de 12 V ou queima na primeira energizacao. NAO comprar 50 W nem mais: ver a espec. Autolimitante por construcao, segue sem termostato ST-1/ST-2. Se vier sem ventoinha, a circulacao dos dutos (CAM-04) faz o trabalho.",
     "opcoes": [
       {
-        "id": "opt_seed_CAM-03_0",
+        "id": "opt_retro2_1794092224_1",
         "loja": "ALI",
-        "link": "https://pt.aliexpress.com/item/1005007808891618.html?spm=a2g0o.productlist.main.1.64da62d3dPKoRO&algo_pvid=39cea7ea-ce32-44c8-ac2f-cbf86ba54e81&pdp_ext_f=%7B%22order%22%3A%222473%22%2C%22spu_best_type%22%3A%22price%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005007808891618%7C_p_origin_prod%3A",
-        "preco": 34.23,
+        "link": "https://pt.aliexpress.com/item/1005005218381381.html",
+        "preco": 17.99,
         "freteGratis": true,
         "freteValor": "0.00",
         "escolhida": true,
-        "variacao": "(INSULATED) 12V 50W",
-        "obs": "Aquecedor automtico, termostato, ptc, com faixa ondulada, pequeno espao com aquecimento, 50w, 12v (ac/dc), f",
-        "foto": "https://ae-pic-a1.aliexpress-media.com/kf/S70969b3d6cc94e9d807b2a3e68aed281r.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif"
+        "obs": "PTC aquecedor de ar ceramico isolado 12V - escolher variacao 12V 10-20W (24 vendidos)",
+        "foto": "",
+        "variacao": ""
+      },
+      {
+        "id": "opt_retro2_1794092224_2",
+        "loja": "ALI",
+        "link": "https://pt.aliexpress.com/item/1005007536241797.html",
+        "preco": 6.99,
+        "freteGratis": true,
+        "freteValor": "0.00",
+        "escolhida": false,
+        "obs": "ALTERNATIVA: placa de aquecimento PTC 12V temperatura constante, sem carcaca - conferir W (590 vendidos)",
+        "foto": "",
+        "variacao": ""
       }
     ],
     "escolha": 0,
     "busca_ml": "aquecedor cerâmico ptc 12v 50w ventoinha",
-    "busca_ali": "12V 50W insulated PTC air heater with fan constant temperature",
+    "busca_ali": "insulated PTC ceramic air heater 12V 15W",
     "senai": false
   },
   {
