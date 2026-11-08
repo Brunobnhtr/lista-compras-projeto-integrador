@@ -2051,6 +2051,33 @@ const ITENS = [
     "senai": false
   },
   {
+    "id": "POT-07",
+    "bloco": "5 · Sensores e potência",
+    "critico": true,
+    "item": "Módulo sensor de corrente INA219 I2C (RETROFIT — repõe o diagnóstico perdido com a BTS7960)",
+    "qtd": "1",
+    "espec": "O módulo MOSFET que substituiu a ponte-H BTS7960 nao tem o pino IS de diagnostico de corrente, e com isso o firmware perdeu a deteccao de MOSFET colado e de carga aberta no atuador. O INA219 fica EM SERIE no ramal de 12 V e devolve a corrente por I2C. Fica melhor que o IS original: o IS era um espelho interno do driver e a propria ficha nao garantia leitura valida com a chave inativa; o INA219 mede a corrente que realmente passa. R$ 7 para repor uma funcao de protecao num retrofit que economizou R$ 829.",
+    "conferir": "INA219 com interface I2C (GY-219 / MCU-219), 3,3-5 V. Endereco padrao 0x40. ATENCAO AO SHUNT: o modulo vem com shunt de 0,1 ohm, que satura em ~3,2 A — abaixo dos 5,74 A de arranque da pastilha Peltier. TROCAR por 0,05 ohm, ou soldar um segundo resistor de 0,1 ohm em paralelo sobre o existente. Sem essa troca a leitura satura justamente no arranque, que e o instante mais critico. Conferir com multimetro em serie na primeira energizacao.",
+    "busca_ml": "sensor de corrente ina219 i2c",
+    "busca_ali": "INA219 current sensor module I2C GY-219",
+    "opcoes": [
+      {
+        "id": "opt_retro4_1794140887",
+        "loja": "ALI",
+        "link": "https://pt.aliexpress.com/item/1005006960298791.html",
+        "preco": 6.99,
+        "freteGratis": true,
+        "freteValor": "0.00",
+        "escolhida": true,
+        "obs": "MCU-219 INA219 modulo sensor de corrente I2C (614 vendidos)",
+        "foto": "",
+        "variacao": ""
+      }
+    ],
+    "escolha": 0,
+    "senai": false
+  },
+  {
     "id": "CMD-01",
     "bloco": "6 · Comando e proteção",
     "critico": true,
@@ -2731,10 +2758,10 @@ const ITENS = [
   {
     "id": "ELE-07",
     "bloco": "3 · Cargas de ensaio (LED 12 V)",
-    "item": "Tiras de alumínio (2× barras chatas 210 × 20 mm) — Suporte das Placas",
+    "item": "Tiras de aluminio (2x barras chatas 190 x 20 mm) - Suporte das Placas (RETROFIT)",
     "qtd": "2 tiras",
-    "espec": "Duas tiras de alumínio (barra chata comercial 210 × 20 mm, espessura 1,0 a 2,0 mm) parafusadas nas cantoneiras CAM-24 das laterais de acrílico. Substitui a antiga chapa maciça dobrada, deixando a passagem de ar vertical 100% livre.",
-    "conferir": "Duas barras chatas de 210 mm. Podem ser cortadas de barra chata comercial ou retalho de serralheria no próprio SENAI. Furação Ø4,5 mm nas extremidades para M4 e furos Ø3,2 mm para os espaçadores M3.",
+    "espec": "Duas tiras de aluminio (barra chata comercial 190 x 20 mm, espessura 1,0 a 2,0 mm) parafusadas nas cantoneiras CAM-24 das laterais de acrilico. Substitui a antiga chapa macica dobrada, deixando a passagem de ar vertical 100% livre. RETROFIT 07/11/2026: cairam de 210 para 190 mm porque a camara encolheu de 300 para 260 mm de largura (revisao V13 do CAD). Duas placas ELE-04 de 90 mm lado a lado dao 180 mm, sobrando 5 mm de folga de cada lado na tira de 190.",
+    "conferir": "Duas barras chatas de 190 mm (NAO 210 - a camara encolheu). Podem ser cortadas de barra chata comercial ou retalho de serralheria no proprio SENAI. Furacao O4,5 mm para M4 a 10 e 180 mm (era 10 e 200) e furos O3,2 mm para os espacadores M3. Conferir contra as cantoneiras CAM-24 reais antes de furar: elas tambem foram recotadas (80 x 25, centros em Y 30 e 90, Z 55).",
     "busca_ml": "barra chata aluminio 3/4 x 1/16",
     "busca_ali": "aluminum flat bar strip 20mm",
     "opcoes": [
